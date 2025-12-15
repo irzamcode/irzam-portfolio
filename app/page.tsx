@@ -1,306 +1,273 @@
-type Project = {
-  title: string;
-  description: string;
-  tags: string[];
-  href?: string;
-};
+export default function Page() {
+  // ★ここだけ自分用に変えてOK
+  const EMAIL = "irzam.code@gmail.com"; // ←自分の連絡先
+  const GITHUB = "https://github.com/irzamcode";
 
-const projects: Project[] = [
-  {
-    title: "IRZAM Portfolio",
-    description: "デザインと読みやすさを両立したポートフォリオ。スマホ最優先で設計。",
-    tags: ["Next.js", "TypeScript", "Tailwind", "Vercel"],
-    href: "https://irzam-portfolio-mocha.vercel.app/",
-  },
-  {
-    title: "Project 2（準備中）",
-    description: "次の制作物。完成したらリンクと説明を差し替え。",
-    tags: ["Coming soon"],
-  },
-];
-
-const services = [
-  {
-    title: "UI/UX設計",
-    desc: "“高く見える”余白と階層設計。見た目だけでなく、導線まで整えます。",
-  },
-  {
-    title: "フロント実装",
-    desc: "Next.js / TypeScript中心。速度・保守性・再利用性を意識して作ります。",
-  },
-  {
-    title: "改善・運用",
-    desc: "公開後の改善（文章/構成/速度）まで。成果に寄せて育てます。",
-  },
-];
-
-export default function Home() {
   return (
-    <main id="top">
+    <>
       {/* HERO */}
-      <section style={{ paddingTop: 44, paddingBottom: 28 }}>
-        <div className="container-safe">
-          <div className="glass-strong" style={{ padding: 26, position: "relative", overflow: "hidden" }}>
-            <div
-              aria-hidden
-              style={{
-                position: "absolute",
-                inset: "-40px",
-                background:
-                  "radial-gradient(700px 260px at 20% 10%, rgba(99,102,241,0.18), transparent 60%), radial-gradient(520px 260px at 90% 30%, rgba(236,72,153,0.14), transparent 60%)",
-                pointerEvents: "none",
-              }}
-            />
-
-            <div style={{ position: "relative" }}>
-              <div className="pill" style={{ width: "fit-content" }}>
-                <span style={{ fontWeight: 700 }}>Available</span>
-                <span style={{ color: "rgba(11,13,18,0.62)" }}>小さめ案件 / 継続もOK</span>
+      <section className="section">
+        <div className="container">
+          <div className="grid2">
+            <div>
+              <div className="flex flex-wrap gap-2" style={{ marginBottom: 18 }}>
+                <span className="pill">上品 / 速い / 成果につながる</span>
+                <span className="pill">Next.js / TypeScript / Tailwind</span>
               </div>
 
-              <h1
-                style={{
-                  marginTop: 18,
-                  fontSize: 40,
-                  lineHeight: 1.12,
-                  letterSpacing: "-0.03em",
-                  fontWeight: 800,
-                }}
-                className="sm:text-5xl"
-              >
-                上品で、速くて、<br className="hidden sm:block" />
-                成果につながるWeb。
+              <h1 className="h1" style={{ fontFamily: "var(--font-serif)" }}>
+                上品で、速くて、成果につながるWeb制作。
               </h1>
 
-              <p style={{ marginTop: 14, color: "rgba(11,13,18,0.70)", lineHeight: 1.85, maxWidth: 740 }}>
-                Next.js / TypeScript を軸に、デザイン〜実装〜改善まで一貫対応。
-                「安っぽい」「伝わらない」を、“任せたくなる形”に整えます。
+              <p className="sub" style={{ marginTop: 16, maxWidth: 640 }}>
+                見た目の高級感だけでなく、<b>導線</b>・<b>読みやすさ</b>・<b>速度</b>まで設計して、
+                「任せたくなる」サイトに整えます。小さめの案件から継続までOK。
               </p>
 
-              <div style={{ marginTop: 18 }} className="flex flex-wrap gap-10">
-                <a href="#projects" className="btn btn-primary">
+              <div className="flex flex-wrap gap-3" style={{ marginTop: 22 }}>
+                <a className="btn btnPrimary" href={`mailto:${EMAIL}?subject=Web%E5%88%B6%E4%BD%9C%E7%9B%B8%E8%AB%87`}>
+                  相談する（メール）
+                </a>
+                <a className="btn" href="#projects">
                   作品を見る
-                  <span className="kbd">Projects</span>
                 </a>
-                <a href="#contact" className="btn">
-                  相談する
-                  <span className="kbd">Contact</span>
+                <a className="btn" href={GITHUB} target="_blank" rel="noreferrer">
+                  GitHubを見る
                 </a>
+              </div>
 
-                <div className="flex flex-wrap items-center gap-8" style={{ color: "rgba(11,13,18,0.64)" }}>
-                  <span className="pill">Next.js</span>
-                  <span className="pill">TypeScript</span>
-                  <span className="pill">Tailwind</span>
-                  <span className="pill">Vercel</span>
+              <div className="flex flex-wrap gap-2" style={{ marginTop: 18 }}>
+                <span className="chip">LP / コーポレート</span>
+                <span className="chip">ポートフォリオ改善</span>
+                <span className="chip">UI改修 / 速度改善</span>
+                <span className="chip">スマホ最優先</span>
+              </div>
+            </div>
+
+            {/* Right side card */}
+            <div className="glass" style={{ padding: 18 }}>
+              <div className="softGrid">
+                <div className="card" style={{ padding: 18 }}>
+                  <div className="h2">提案までが速い</div>
+                  <p className="sub" style={{ marginTop: 8 }}>
+                    目的・参考サイト・期限だけでOK。構成と方向性を先に出して、迷いを減らします。
+                  </p>
+                </div>
+
+                <div className="card" style={{ padding: 18 }}>
+                  <div className="h2">“高級に見える”作り</div>
+                  <p className="sub" style={{ marginTop: 8 }}>
+                    余白 / 階層 / 文字サイズ / コントラストを整えて、見た瞬間にプロ感を出します。
+                  </p>
+                </div>
+
+                <div className="card" style={{ padding: 18 }}>
+                  <div className="h2">運用しやすい設計</div>
+                  <p className="sub" style={{ marginTop: 8 }}>
+                    追加・修正がしやすい構造に。将来の更新コストも下げます。
+                  </p>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* MINI METRICS */}
-          <div className="grid sm:grid-cols-3 gap-12" style={{ marginTop: 18 }}>
-            <div className="glass" style={{ padding: 18 }}>
-              <div style={{ fontWeight: 800, fontSize: 14, letterSpacing: "0.06em" }}>QUALITY</div>
-              <div style={{ marginTop: 8, color: "rgba(11,13,18,0.70)", lineHeight: 1.75 }}>
-                余白と階層で“高く見える”。<br />
-                導線まで整えて成約率を上げる。
-              </div>
-            </div>
-            <div className="glass" style={{ padding: 18 }}>
-              <div style={{ fontWeight: 800, fontSize: 14, letterSpacing: "0.06em" }}>SPEED</div>
-              <div style={{ marginTop: 8, color: "rgba(11,13,18,0.70)", lineHeight: 1.75 }}>
-                速く作って、品質も担保。<br />
-                “今すぐ欲しい”に強い。
-              </div>
-            </div>
-            <div className="glass" style={{ padding: 18 }}>
-              <div style={{ fontWeight: 800, fontSize: 14, letterSpacing: "0.06em" }}>MOBILE</div>
-              <div style={{ marginTop: 8, color: "rgba(11,13,18,0.70)", lineHeight: 1.75 }}>
-                スマホ最優先で設計。<br />
-                見やすく、迷わないUIへ。
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <div className="container-safe" style={{ marginTop: 18, marginBottom: 10 }}>
-        <div className="hr-soft" />
-      </div>
-
-      {/* SERVICES */}
-      <section id="services" style={{ paddingTop: 24, paddingBottom: 24 }}>
-        <div className="container-safe">
-          <div className="flex items-end justify-between gap-12 flex-wrap">
-            <div>
-              <div style={{ fontWeight: 900, letterSpacing: "0.10em", fontSize: 12, color: "rgba(11,13,18,0.60)" }}>
-                SERVICES
-              </div>
-              <h2 style={{ marginTop: 8, fontSize: 28, fontWeight: 850, letterSpacing: "-0.02em" }}>
-                できること（案件向けに強い形）
-              </h2>
-            </div>
-
-            <div className="pill" style={{ color: "rgba(11,13,18,0.70)" }}>
-              相談 → 構成案 → 制作 → 公開 → 改善
-            </div>
-          </div>
-
-          <div className="grid sm:grid-cols-3 gap-12" style={{ marginTop: 16 }}>
-            {services.map((s) => (
-              <div key={s.title} className="glass" style={{ padding: 20 }}>
-                <div style={{ fontWeight: 800, fontSize: 16 }}>{s.title}</div>
-                <p style={{ marginTop: 10, color: "rgba(11,13,18,0.70)", lineHeight: 1.85 }}>
-                  {s.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* PROJECTS */}
-      <section id="projects" style={{ paddingTop: 18, paddingBottom: 24 }}>
-        <div className="container-safe">
-          <div className="flex items-end justify-between gap-12 flex-wrap">
-            <div>
-              <div style={{ fontWeight: 900, letterSpacing: "0.10em", fontSize: 12, color: "rgba(11,13,18,0.60)" }}>
-                PROJECTS
-              </div>
-              <h2 style={{ marginTop: 8, fontSize: 28, fontWeight: 850, letterSpacing: "-0.02em" }}>
-                Selected works
-              </h2>
-            </div>
-            <a href="#contact" className="btn">
-              依頼の相談をする
-            </a>
-          </div>
-
-          <div className="grid gap-12" style={{ marginTop: 16 }}>
-            {projects.map((p) => (
-              <div key={p.title} className="glass" style={{ padding: 20 }}>
-                <div className="flex items-start justify-between gap-12 flex-wrap">
-                  <div style={{ minWidth: 240 }}>
-                    <div style={{ fontWeight: 850, fontSize: 18 }}>{p.title}</div>
-                    <p style={{ marginTop: 10, color: "rgba(11,13,18,0.70)", lineHeight: 1.85 }}>
-                      {p.description}
-                    </p>
-
-                    <div className="flex flex-wrap gap-8" style={{ marginTop: 12 }}>
-                      {p.tags.map((t) => (
-                        <span key={t} className="pill" style={{ fontSize: 12 }}>
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-10">
-                    {p.href ? (
-                      <a className="btn btn-primary" href={p.href} target="_blank" rel="noreferrer">
-                        Open
-                        <span className="kbd">Live</span>
-                      </a>
-                    ) : (
-                      <span className="pill" style={{ color: "rgba(11,13,18,0.65)" }}>
-                        準備中
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+          <div className="hr" style={{ marginTop: 54 }} />
         </div>
       </section>
 
       {/* ABOUT */}
-      <section id="about" style={{ paddingTop: 18, paddingBottom: 24 }}>
-        <div className="container-safe">
-          <div className="glass" style={{ padding: 22 }}>
-            <div style={{ fontWeight: 900, letterSpacing: "0.10em", fontSize: 12, color: "rgba(11,13,18,0.60)" }}>
-              ABOUT
+      <section id="about" className="section" style={{ paddingTop: 34 }}>
+        <div className="container">
+          <div className="grid2">
+            <div>
+              <h2 className="h2" style={{ fontFamily: "var(--font-serif)", fontSize: 28 }}>
+                About
+              </h2>
+              <p className="sub" style={{ marginTop: 12 }}>
+                自己紹介は短く断言 → 根拠（技術/経験）→ 最後に「何ができるか」の順に。
+                “ちゃんとできそう”が伝わる文章に寄せています。
+              </p>
+
+              <div className="softGrid" style={{ marginTop: 16 }}>
+                <div className="card" style={{ padding: 18 }}>
+                  <div className="h2">UI / UX デザイン</div>
+                  <p className="sub" style={{ marginTop: 8 }}>
+                    余白・階層・読みやすさで「高く見える」UIを作ります。
+                  </p>
+                </div>
+
+                <div className="card" style={{ padding: 18 }}>
+                  <div className="h2">フロントエンド実装</div>
+                  <p className="sub" style={{ marginTop: 8 }}>
+                    Next.jsで高速・保守しやすい構造。スマホ最優先で作ります。
+                  </p>
+                </div>
+
+                <div className="card" style={{ padding: 18 }}>
+                  <div className="h2">速度 / SEOの基礎</div>
+                  <p className="sub" style={{ marginTop: 8 }}>
+                    表示速度・構造・読み込みの最適化で離脱を減らします。
+                  </p>
+                </div>
+              </div>
             </div>
-            <h2 style={{ marginTop: 8, fontSize: 26, fontWeight: 850, letterSpacing: "-0.02em" }}>
-              何者で、何を解決できるか
-            </h2>
 
-            <p style={{ marginTop: 12, color: "rgba(11,13,18,0.70)", lineHeight: 1.95, maxWidth: 920 }}>
-              自己紹介は短く断言 → 根拠（技術 / 経験） → 最後に“何ができるか”の順に。
-              「見た目が整っていて信頼できる」「速くて運用しやすい」サイトを作ります。
-            </p>
+            <div className="glass" style={{ padding: 18 }}>
+              <div className="h2" style={{ marginBottom: 10 }}>
+                進め方（最短4ステップ）
+              </div>
 
-            <div className="grid sm:grid-cols-3 gap-12" style={{ marginTop: 16 }}>
-              <div className="glass" style={{ padding: 18 }}>
-                <div style={{ fontWeight: 800 }}>デザイン調整</div>
-                <div style={{ marginTop: 8, color: "rgba(11,13,18,0.70)", lineHeight: 1.85 }}>
-                  余白・階層・文章の温度感を整えて“高級感”を作る。
-                </div>
+              <div className="softGrid">
+                {[
+                  ["01 ヒアリング", "目的 / ターゲット / 参考サイトを確認"],
+                  ["02 構成提案", "ワイヤーや見出し構造で導線を固める"],
+                  ["03 実装", "Next.jsで高速に制作、品質も担保"],
+                  ["04 仕上げ", "文言・余白・速度を調整して完成度を上げる"],
+                ].map(([t, d]) => (
+                  <div key={t} className="cardSoft" style={{ padding: 16 }}>
+                    <div style={{ fontWeight: 650 }}>{t}</div>
+                    <div className="sub" style={{ marginTop: 6 }}>
+                      {d}
+                    </div>
+                  </div>
+                ))}
               </div>
-              <div className="glass" style={{ padding: 18 }}>
-                <div style={{ fontWeight: 800 }}>実装品質</div>
-                <div style={{ marginTop: 8, color: "rgba(11,13,18,0.70)", lineHeight: 1.85 }}>
-                  速度 / 保守性 / 再利用性を意識して、次の改善がしやすい構造に。
-                </div>
-              </div>
-              <div className="glass" style={{ padding: 18 }}>
-                <div style={{ fontWeight: 800 }}>導線設計</div>
-                <div style={{ marginTop: 8, color: "rgba(11,13,18,0.70)", lineHeight: 1.85 }}>
-                  CTA（相談・問い合わせ）までの流れを作って、成果につなげる。
-                </div>
+
+              <div style={{ marginTop: 14 }} className="muted text-sm">
+                ※「短いほどプロ」：まずは3行の要件からでもOK。
               </div>
             </div>
           </div>
+
+          <div className="hr" style={{ marginTop: 54 }} />
+        </div>
+      </section>
+
+      {/* PROJECTS */}
+      <section id="projects" className="section" style={{ paddingTop: 34 }}>
+        <div className="container">
+          <div className="flex items-end justify-between gap-4">
+            <h2 className="h2" style={{ fontFamily: "var(--font-serif)", fontSize: 28 }}>
+              Projects
+            </h2>
+            <div className="muted text-sm">Selected works</div>
+          </div>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+              gap: 18,
+              marginTop: 18,
+            }}
+            className="max-[900px]:grid-cols-1"
+          >
+            <div className="card" style={{ padding: 18 }}>
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <div className="h2">IRZAM Portfolio</div>
+                  <div className="sub" style={{ marginTop: 6 }}>
+                    “高級感 + 読みやすさ”を両立した、案件獲得用のポートフォリオ。
+                  </div>
+                </div>
+                <a className="btn" href="/" style={{ height: 40, padding: "0 14px" }}>
+                  Open
+                </a>
+              </div>
+
+              <div className="flex flex-wrap gap-2" style={{ marginTop: 14 }}>
+                <span className="chip">Next.js</span>
+                <span className="chip">TypeScript</span>
+                <span className="chip">Tailwind</span>
+                <span className="chip">Vercel</span>
+              </div>
+            </div>
+
+            <div className="card" style={{ padding: 18 }}>
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <div className="h2">Project 2（準備中）</div>
+                  <div className="sub" style={{ marginTop: 6 }}>
+                    次の制作物。完成したらリンクと説明を差し替え。
+                  </div>
+                </div>
+                <span className="pill" style={{ fontSize: 12 }}>
+                  Coming soon
+                </span>
+              </div>
+
+              <div className="flex flex-wrap gap-2" style={{ marginTop: 14 }}>
+                <span className="chip">LP</span>
+                <span className="chip">UI改善</span>
+                <span className="chip">速度改善</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="hr" style={{ marginTop: 54 }} />
         </div>
       </section>
 
       {/* CONTACT */}
-      <section id="contact" style={{ paddingTop: 18, paddingBottom: 60 }}>
-        <div className="container-safe">
-          <div className="glass-strong" style={{ padding: 22 }}>
-            <div style={{ fontWeight: 900, letterSpacing: "0.10em", fontSize: 12, color: "rgba(11,13,18,0.60)" }}>
-              CONTACT
-            </div>
+      <section id="contact" className="section" style={{ paddingTop: 34 }}>
+        <div className="container">
+          <div className="glass" style={{ padding: 22 }}>
+            <div className="grid2">
+              <div>
+                <h2 className="h2" style={{ fontFamily: "var(--font-serif)", fontSize: 28 }}>
+                  Contact
+                </h2>
+                <p className="sub" style={{ marginTop: 12 }}>
+                  相談 → すぐ提案まで出します。<br />
+                  「何を作りたいか」「参考サイト」「期限」だけでOK。
+                </p>
 
-            <h2 style={{ marginTop: 8, fontSize: 26, fontWeight: 850, letterSpacing: "-0.02em" }}>
-              相談 → すぐ提案まで出します。
-            </h2>
+                <div className="flex flex-wrap gap-3" style={{ marginTop: 16 }}>
+                  <a className="btn btnPrimary" href={`mailto:${EMAIL}?subject=Web%E5%88%B6%E4%BD%9C%E7%9B%B8%E8%AB%87`}>
+                    メールで相談
+                  </a>
+                  <a className="btn" href={GITHUB} target="_blank" rel="noreferrer">
+                    GitHub
+                  </a>
+                </div>
 
-            <p style={{ marginTop: 10, color: "rgba(11,13,18,0.70)", lineHeight: 1.95, maxWidth: 920 }}>
-              「何を作りたいか」「参考サイト」「期限」だけでOK。こちらで構成案（導線）と制作の方向性を出します。
-            </p>
+                <div className="muted text-sm" style={{ marginTop: 12 }}>
+                  ※ SNSは「投稿がしっかりあるなら」入れると強い。<br />
+                  まだ薄いなら、まずは <b>メール / GitHub</b> でOK。
+                </div>
+              </div>
 
-            <div className="flex flex-wrap gap-10" style={{ marginTop: 14 }}>
-              {/* ここは自分のメールに変えてOK */}
-              <a className="btn btn-primary" href="mailto:irzam.code@gmail.com?subject=Website%20Inquiry&body=目的:%0A納期:%0A参考URL:%0A">
-                メールで相談
-              </a>
-              <a className="btn" href="https://github.com/irzamcode" target="_blank" rel="noreferrer">
-                GitHubを見る
-              </a>
-            </div>
-
-            <div className="glass" style={{ padding: 18, marginTop: 16 }}>
-              <div style={{ fontWeight: 800 }}>送る内容（このままでOK）</div>
-              <ul style={{ marginTop: 10, color: "rgba(11,13,18,0.70)", lineHeight: 2.0, paddingLeft: 18 }}>
-                <li>目的：例）店舗サイト / LP / ポートフォリオ改善</li>
-                <li>納期：例）1週間 / 2週間</li>
-                <li>参考：URL 2〜3個</li>
-                <li>短い一言：まずは3行でOK</li>
-              </ul>
-              <div style={{ marginTop: 10, color: "rgba(11,13,18,0.62)" }}>
-                Tip：Projectsは「課題 → 解決 → 成果」で書くほど案件が増えやすい。
+              <div className="card" style={{ padding: 18 }}>
+                <div style={{ fontWeight: 650 }}>送る内容（このままでOK）</div>
+                <div className="softGrid" style={{ marginTop: 10 }}>
+                  <div className="cardSoft" style={{ padding: 14 }}>
+                    <div style={{ fontWeight: 650 }}>目的</div>
+                    <div className="sub" style={{ marginTop: 6 }}>
+                      例）店舗サイト / LP / ポートフォリオ改善
+                    </div>
+                  </div>
+                  <div className="cardSoft" style={{ padding: 14 }}>
+                    <div style={{ fontWeight: 650 }}>納期</div>
+                    <div className="sub" style={{ marginTop: 6 }}>
+                      例）1週間 / 2週間
+                    </div>
+                  </div>
+                  <div className="cardSoft" style={{ padding: 14 }}>
+                    <div style={{ fontWeight: 650 }}>参考URL</div>
+                    <div className="sub" style={{ marginTop: 6 }}>
+                      例）URL 2〜3個（近い雰囲気でOK）
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
+          </div>
 
-            <div style={{ marginTop: 14 }}>
-              <a href="#projects" style={{ color: "rgba(11,13,18,0.70)", textDecoration: "underline" }}>
-                Projectsへ戻る
-              </a>
-            </div>
+          <div className="muted text-sm" style={{ marginTop: 18 }}>
+            Tip：Projectsは「課題 → 解決 → 成果」で書くほど案件が増えやすい。
           </div>
         </div>
       </section>
-    </main>
+    </>
   );
 }
