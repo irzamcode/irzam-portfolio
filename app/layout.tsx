@@ -1,118 +1,62 @@
-import type { Metadata } from "next";
 import "./globals.css";
-import { Inter, Playfair_Display } from "next/font/google";
+import type { Metadata } from "next";
+import { Noto_Sans_JP, Noto_Serif_JP } from "next/font/google";
 
-const inter = Inter({
+const sans = Noto_Sans_JP({
   subsets: ["latin"],
+  weight: ["400", "500", "700"],
   variable: "--font-sans",
   display: "swap",
 });
 
-const playfair = Playfair_Display({
+const serif = Noto_Serif_JP({
   subsets: ["latin"],
+  weight: ["500", "700"],
   variable: "--font-serif",
   display: "swap",
 });
 
+const SITE_URL = "https://irzam-portfolio-mocha.vercel.app"; // ★あなたの本番URLに合わせる
+
 export const metadata: Metadata = {
-  title: {
-    default: "IRZAM — Portfolio",
-    template: "%s | IRZAM",
-  },
+  metadataBase: new URL(SITE_URL),
+  title: "IRZAM Beauty | サロン向けWeb制作（予約・問い合わせに強い）",
   description:
-    "Premium, light, and conversion-focused web experiences. Built with Next.js, TypeScript, and Tailwind.",
-  metadataBase: new URL("https://irzam-portfolio-mocha.vercel.app"),
+    "美容室/ネイル/エステ/アイブロウ向け。上品で、速くて、予約・問い合わせにつながるWeb制作。導線設計/表示速度/SEO/運用しやすさまで一気通貫。",
+  alternates: { canonical: "/" },
+  openGraph: {
+    title: "IRZAM Beauty | サロン向けWeb制作",
+    description:
+      "上品で、速くて、予約・問い合わせにつながる。サロンの“売上に効く”Webを設計します。",
+    url: SITE_URL,
+    siteName: "IRZAM Beauty",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "IRZAM Beauty | サロン向けWeb制作",
+    description: "予約・問い合わせに強い導線設計 / 表示速度 / SEO / 運用しやすさ",
+  },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    name: "IRZAM Beauty",
+    url: SITE_URL,
+    areaServed: "JP",
+    serviceType: "Salon website / landing page / SEO / performance",
+  };
+
   return (
-    <html lang="ja" className={`${inter.variable} ${playfair.variable}`}>
-      <body>
-        <a
-          href="#content"
-          style={{
-            position: "absolute",
-            left: -9999,
-            top: 0,
-          }}
-        >
-          Skip to content
-        </a>
-
-        <header
-          className="sticky top-0 z-50"
-          style={{
-            background: "rgba(246,244,239,.72)",
-            borderBottom: "1px solid rgba(10,12,18,.08)",
-            backdropFilter: "blur(10px)",
-            WebkitBackdropFilter: "blur(10px)",
-          }}
-        >
-          <div className="container" style={{ paddingTop: 14, paddingBottom: 14 }}>
-            <div className="flex items-center justify-between">
-              <a href="/" className="flex items-center gap-2">
-                <span
-                  style={{
-                    fontWeight: 750,
-                    letterSpacing: "0.02em",
-                    fontSize: 14,
-                  }}
-                >
-                  IRZAM
-                </span>
-                <span className="pill" style={{ fontSize: 12 }}>
-                  small freelance / 継続OK
-                </span>
-              </a>
-
-              <nav className="flex items-center gap-4 text-sm">
-                <a href="#about" className="muted hover:text-black">
-                  About
-                </a>
-                <a href="#projects" className="muted hover:text-black">
-                  Projects
-                </a>
-                <a href="#contact" className="muted hover:text-black">
-                  Contact
-                </a>
-                <a
-                  href="https://github.com/irzamcode"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="muted hover:text-black"
-                >
-                  GitHub
-                </a>
-              </nav>
-            </div>
-          </div>
-        </header>
-
-        <main id="content">{children}</main>
-
-        <footer style={{ borderTop: "1px solid rgba(10,12,18,.08)" }}>
-          <div className="container" style={{ padding: "26px 24px" }}>
-            <div className="flex flex-col gap-10 md:flex-row md:items-center md:justify-between">
-              <div className="muted text-sm">
-                Clean & premium web experiences. Built with Next.js.
-              </div>
-              <div className="flex flex-wrap gap-3 text-sm">
-                <a className="muted hover:text-black" href="https://github.com/irzamcode" target="_blank" rel="noreferrer">
-                  GitHub
-                </a>
-                <a className="muted hover:text-black" href="#contact">
-                  Email
-                </a>
-              </div>
-            </div>
-
-            <div className="muted text-xs" style={{ marginTop: 14 }}>
-              © {new Date().getFullYear()} IRZAM. All rights reserved.
-            </div>
-          </div>
-        </footer>
+    <html lang="ja" className={`${sans.variable} ${serif.variable}`}>
+      <body className="min-h-dvh font-[var(--font-sans)]">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        {children}
       </body>
     </html>
   );

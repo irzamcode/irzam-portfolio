@@ -1,0 +1,9 @@
+# Query: onClick
+# ContextLines: 1
+
+1 result - 1 file
+
+app/page.tsx:
+  256                <div style={{ height: 16 }} />
+  257:               <a className="btn btn-primary" href="#"={(e)=>e.preventDefault()}>
+  258                  Open（制作中のため後でリンク差し替え）
