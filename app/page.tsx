@@ -1,400 +1,341 @@
-export default function Page() {
-  const tags = [
-    "美容サロンLP",
-    "メニュー/予約導線",
-    "既存サイト改善",
-    "スマホ最優先",
-    "表示速度/SEO基礎",
-  ];
+// app/page.tsx
+// NOTE: Server Component (default). No onClick / no useState. Safe for Next.js App Router.
 
-  const services = [
-    {
-      title: "“高級に見える”UI設計",
-      desc: "余白・階層・タイポグラフィで“ちゃんとしてる感”を作り、価格帯を上げられる見た目に整えます。",
-    },
-    {
-      title: "予約につながる導線",
-      desc: "メニュー/料金/実績/アクセス/予約ボタンの配置を整理し、迷いを減らして予約率に寄せます。",
-    },
-    {
-      title: "スマホで完結する設計",
-      desc: "美容はスマホが主戦場。スクロールの気持ちよさ・読みやすさ・押しやすさに全振りします。",
-    },
-    {
-      title: "運用しやすい構造",
-      desc: "追加・修正がしやすい構造に。キャンペーンや新メニュー更新が回るサイトにします。",
-    },
-  ];
+const SITE = {
+  brand: "IRZAM",
+  tagline: "上品で、速くて、成果につながるWeb制作。",
+  sub: "Next.js / TypeScriptを軸に、見た目の高級感だけでなく、導線・読みやすさ・運用性まで設計して「任せたくなる」サイトに整えます。",
+  availability: "Available for small freelance / 継続もOK",
+  primaryCta: "相談する（メール）",
+  secondaryCta: "作品を見る",
+  githubCta: "GitHubを見る",
+  email: "irzam.code@gmail.com", // ←あなたのメールに変えてOK
+  github: "https://github.com/irzamcode",
+  // Instagram / X は「投稿が育ってから」でもOK。入れるならここにURLを入れるだけで反映できる。
+  instagram: "", // 例: "https://www.instagram.com/xxxxx/"
+  x: "", // 例: "https://x.com/xxxxx"
+  linkedin: "", // 例: "https://www.linkedin.com/in/xxxxx/"
+};
 
-  const process = [
-    { step: "01", title: "ヒアリング", desc: "目的 / ターゲット / 参考サイトを確認" },
-    { step: "02", title: "構成提案", desc: "見出し・導線・ページ構成を先に固める" },
-    { step: "03", title: "実装", desc: "Next.jsで高速に制作、品質も担保" },
-    { step: "04", title: "仕上げ", desc: "文言・余白・速度を整えて完成度を上げる" },
-  ];
+type Project = {
+  title: string;
+  desc: string;
+  tags: string[];
+  href?: string; // 公開したらURLを入れる
+  status?: "live" | "soon";
+};
 
-  const pricing = [
-    {
-      name: "Starter",
-      price: "¥59,800〜",
-      for: "まずは最低限のLPで反応を見る",
-      points: ["1ページLP", "スマホ最適化", "基本SEO/速度調整", "CTA設計（予約/LINE/フォーム）"],
-    },
-    {
-      name: "Standard",
-      price: "¥129,800〜",
-      for: "“任せたくなる”見た目と導線まで作る",
-      points: ["2〜4ページ構成", "メニュー/料金の見せ方最適化", "実績/FAQ/アクセス整備", "運用しやすい構造"],
-    },
-    {
-      name: "Premium",
-      price: "¥199,800〜",
-      for: "ブランド感を上げて単価を取りにいく",
-      points: ["5ページ以上/設計重視", "ビジュアル設計（高級感）", "速度・構造の徹底最適化", "公開後の改善提案（軽め）"],
-    },
-  ];
+const PROJECTS: Project[] = [
+  {
+    title: "IRZAM Portfolio",
+    desc: "“高級感 + 読みやすさ” を両立した、案件獲得用ポートフォリオ。",
+    tags: ["Next.js", "TypeScript", "Tailwind", "Vercel"],
+    href: "https://irzam-portfolio-mocha.vercel.app/",
+    status: "live",
+  },
+  {
+    title: "Beauty Landing Page（準備中）",
+    desc: "美容サロン向け：予約/問い合わせが増える導線のLP（デモ制作）。",
+    tags: ["LP", "UI改善", "導線設計"],
+    status: "soon",
+  },
+];
+
+const SERVICES = [
+  {
+    title: "上品に見える設計",
+    desc: "余白・階層・文字サイズ・コントラストを整えて、見た瞬間に“プロ感”が出るUIへ。",
+  },
+  {
+    title: "速くて読みやすい実装",
+    desc: "Next.jsで高速表示。スマホ最優先で崩れない・迷わない設計にします。",
+  },
+  {
+    title: "運用しやすい構造",
+    desc: "追加・修正がしやすい形に。将来の更新コストも下げます。",
+  },
+] as const;
+
+const PROCESS = [
+  { step: "01", title: "ヒアリング", desc: "目的 / ターゲット / 参考サイトを確認" },
+  { step: "02", title: "構成提案", desc: "ワイヤーや見出し構造で導線を固める" },
+  { step: "03", title: "実装", desc: "Next.jsで高速に制作、品質も担保" },
+  { step: "04", title: "仕上げ", desc: "文言・余白・速度を調整して完成度を上げる" },
+] as const;
+
+function clsx(...v: Array<string | false | null | undefined>) {
+  return v.filter(Boolean).join(" ");
+}
+
+function SocialLinks() {
+  const links = [
+    SITE.github ? { label: "GitHub", href: SITE.github } : null,
+    SITE.linkedin ? { label: "LinkedIn", href: SITE.linkedin } : null,
+    SITE.instagram ? { label: "Instagram", href: SITE.instagram } : null,
+    SITE.x ? { label: "X", href: SITE.x } : null,
+  ].filter(Boolean) as Array<{ label: string; href: string }>;
+
+  if (links.length === 0) return null;
 
   return (
-    <main>
-      {/* HERO */}
-      <section className="section">
-        <div className="container">
-          <div className="glass" style={{ padding: 34 }}>
-            <div className="kicker">Beauty / Salon Web Design</div>
+    <div className="footer-links">
+      {links.map((l) => (
+        <a key={l.label} href={l.href} target="_blank" rel="noreferrer" className="footer-link">
+          {l.label}
+        </a>
+      ))}
+    </div>
+  );
+}
 
-            <div style={{ height: 10 }} />
+export default function Page() {
+  return (
+    <main className="page">
+      {/* Top bar */}
+      <header className="topbar">
+        <div className="container topbar-inner">
+          <a href="#top" className="brand" aria-label="Go to top">
+            {SITE.brand}
+          </a>
 
-            <h1 style={{ fontSize: "clamp(34px, 5vw, 58px)" }}>
-              上品で、速くて、<br />
-              予約につながるWeb制作。
-            </h1>
+          <div className="topbar-badge">{SITE.availability}</div>
 
-            <div style={{ height: 14 }} />
+          <nav className="topnav" aria-label="Primary">
+            <a className="topnav-link" href="#about">
+              About
+            </a>
+            <a className="topnav-link" href="#projects">
+              Projects
+            </a>
+            <a className="topnav-link" href="#contact">
+              Contact
+            </a>
+            <a className="topnav-link" href={SITE.github} target="_blank" rel="noreferrer">
+              GitHub
+            </a>
+          </nav>
+        </div>
+      </header>
 
-            <p className="lead" style={{ maxWidth: 760 }}>
-              “高級に見えるデザイン”だけじゃなく、導線・読みやすさ・速度まで整えて、
-              <b style={{ color: "var(--text)" }}>「任せたくなる」</b>サイトに仕上げます。
-              小さめの改善から継続までOK。
+      {/* Hero */}
+      <section id="top" className="section hero">
+        <div className="container hero-inner">
+          <div className="kicker">上品 / 速い / 成果につながる</div>
+
+          <h1 className="hero-title">{SITE.tagline}</h1>
+          <p className="hero-sub">{SITE.sub}</p>
+
+          <div className="hero-cta">
+            <a className="btn btn-primary" href={`mailto:${SITE.email}?subject=Web制作の相談`}>
+              {SITE.primaryCta}
+            </a>
+            <a className="btn btn-ghost" href="#projects">
+              {SITE.secondaryCta}
+            </a>
+            <a className="btn btn-soft" href={SITE.github} target="_blank" rel="noreferrer">
+              {SITE.githubCta}
+            </a>
+          </div>
+
+          <div className="chips">
+            <span className="chip">LP / コーポレート</span>
+            <span className="chip">美容サロン向け</span>
+            <span className="chip">UI改善 / 速度改善</span>
+            <span className="chip">スマホ最優先</span>
+          </div>
+
+          <div className="card hero-card">
+            <div className="hero-card-title">提案までが速い</div>
+            <p className="hero-card-text">
+              「何を作りたいか」「参考サイト」「期限」だけでOK。構成（導線）と制作の方向性を先に出して、迷いを減らします。
             </p>
-
-            <div style={{ height: 18 }} />
-
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-              {/* ↓自分のメールに変える */}
-              <a className="btn btn-primary" href="#contact">
-                相談する（メール）
-              </a>
-              <a className="btn" href="#projects">
-                作品を見る
-              </a>
-              <a className="btn btn-ghost" href="https://github.com/irzamcode" target="_blank" rel="noreferrer">
-                GitHubを見る ↗
-              </a>
-            </div>
-
-            <div style={{ height: 18 }} />
-            <div className="chips">
-              {tags.map((t) => (
-                <span key={t} className="chip">
-                  {t}
-                </span>
-              ))}
-            </div>
           </div>
         </div>
       </section>
 
-      {/* SERVICES */}
-      <section id="services" className="section" style={{ paddingTop: 0 }}>
+      {/* Services */}
+      <section className="section">
         <div className="container">
-          <div style={{ display: "flex", alignItems: "end", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
-            <h2 style={{ fontSize: "clamp(26px, 3.6vw, 40px)" }}>Services</h2>
-            <p className="lead" style={{ maxWidth: 520 }}>
-              美容は「雰囲気」と「予約導線」。この2つを同時に上げます。
-            </p>
-          </div>
-
-          <div style={{ height: 18 }} />
-
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(12, 1fr)",
-              gap: 14,
-            }}
-          >
-            {services.map((s, i) => (
-              <div
-                key={s.title}
-                className="card"
-                style={{
-                  gridColumn: "span 6",
-                  padding: 22,
-                }}
-              >
-                <div className="kicker">0{i + 1}</div>
-                <div style={{ height: 8 }} />
-                <h3 style={{ fontSize: 18 }}>{s.title}</h3>
-                <div style={{ height: 8 }} />
-                <p>{s.desc}</p>
+          <div className="grid3">
+            {SERVICES.map((s) => (
+              <div key={s.title} className="card service-card">
+                <div className="card-title">{s.title}</div>
+                <p className="card-text">{s.desc}</p>
               </div>
             ))}
           </div>
-
-          <style>{`
-            @media (max-width: 900px){
-              #services .card{ grid-column: span 12 !important; }
-            }
-          `}</style>
         </div>
       </section>
 
-      {/* ABOUT */}
+      {/* About */}
       <section id="about" className="section">
         <div className="container">
-          <div className="glass" style={{ padding: 28 }}>
-            <h2 style={{ fontSize: "clamp(26px, 3.6vw, 40px)" }}>About</h2>
-            <div style={{ height: 12 }} />
-            <p style={{ maxWidth: 860 }}>
-              自己紹介は短く <b style={{ color: "var(--text)" }}>断言 → 根拠（技術/経験）→ 最後に「何ができるか」</b>の順に。
-              “ちゃんとできそう”が伝わる文章に寄せています。美容サロンのLP/コーポレート/既存サイト改善など、成果に近いところから作れます。
+          <div className="section-head">
+            <h2 className="h2">About</h2>
+            <p className="muted">
+              自己紹介は短く「断言 → 根拠（技術/経験） → 最後に“何ができるか”」の順に。ちゃんとできそうが伝わる文章に寄せています。
             </p>
+          </div>
 
-            <div style={{ height: 18 }} />
+          <div className="grid2">
+            <div className="card">
+              <div className="card-title">UI / UX デザイン</div>
+              <p className="card-text">余白・階層・読みやすさで「高く見える」UIを作ります。</p>
+            </div>
+            <div className="card">
+              <div className="card-title">フロントエンド実装</div>
+              <p className="card-text">Next.jsで高速・保守しやすい構造。スマホ最優先で作ります。</p>
+            </div>
+            <div className="card">
+              <div className="card-title">速度 / SEO の基礎</div>
+              <p className="card-text">表示速度・構造・読み込み最適化で離脱を減らします。</p>
+            </div>
+            <div className="card">
+              <div className="card-title">導線設計</div>
+              <p className="card-text">CTA（相談・問い合わせ）までの流れを作って、成果につなげます。</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(12, 1fr)",
-                gap: 14,
-              }}
-            >
-              {[
-                { title: "UI / UX デザイン", desc: "余白・階層・読みやすさで「高く見える」UIを作ります。" },
-                { title: "フロントエンド実装", desc: "Next.jsで高速・保守しやすい構造。スマホ最優先で作ります。" },
-                { title: "速度 / SEOの基礎", desc: "表示速度・構造・読み込み最適化で離脱を減らします。" },
-              ].map((b) => (
-                <div key={b.title} className="card" style={{ gridColumn: "span 4", padding: 20 }}>
-                  <h3 style={{ fontSize: 16 }}>{b.title}</h3>
-                  <div style={{ height: 8 }} />
-                  <p>{b.desc}</p>
+      {/* Process */}
+      <section className="section">
+        <div className="container">
+          <div className="section-head">
+            <h2 className="h2">進め方（最短4ステップ）</h2>
+            <p className="muted">短いほどプロ。まずは3行の要件からでもOK。</p>
+          </div>
+
+          <div className="process">
+            {PROCESS.map((p) => (
+              <div key={p.step} className="process-row">
+                <div className="process-step">{p.step}</div>
+                <div className="process-body">
+                  <div className="process-title">{p.title}</div>
+                  <div className="process-desc">{p.desc}</div>
                 </div>
-              ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Projects */}
+      <section id="projects" className="section">
+        <div className="container">
+          <div className="section-head row-between">
+            <div>
+              <h2 className="h2">Projects</h2>
+              <p className="muted">Selected works / “課題 → 解決 → 成果”で書くほど、案件が増えやすい。</p>
             </div>
+          </div>
 
-            <style>{`
-              @media (max-width: 900px){
-                #about .card{ grid-column: span 12 !important; }
-              }
-            `}</style>
+          <div className="grid2">
+            {PROJECTS.map((p) => {
+              const isSoon = p.status === "soon";
+              return (
+                <div key={p.title} className="card project-card">
+                  <div className="project-head">
+                    <div className="project-title">{p.title}</div>
 
-            <div style={{ height: 18 }} />
-
-            <div className="card" style={{ padding: 20 }}>
-              <h3 style={{ fontSize: 16 }}>進め方（最短4ステップ）</h3>
-              <div style={{ height: 10 }} />
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(12, 1fr)",
-                  gap: 10,
-                }}
-              >
-                {process.map((p) => (
-                  <div key={p.step} className="soft" style={{ gridColumn: "span 3", padding: 14, border: "1px solid var(--line)" }}>
-                    <div className="kicker">{p.step}</div>
-                    <div style={{ height: 6 }} />
-                    <div style={{ fontWeight: 700 }}>{p.title}</div>
-                    <div style={{ height: 6 }} />
-                    <div style={{ color: "var(--muted)", fontSize: 13, lineHeight: 1.7 }}>{p.desc}</div>
+                    {isSoon ? (
+                      <span className="pill">Coming soon</span>
+                    ) : (
+                      <a className="btn btn-mini" href={p.href} target="_blank" rel="noreferrer">
+                        Open
+                      </a>
+                    )}
                   </div>
-                ))}
-              </div>
 
-              <style>{`
-                @media (max-width: 900px){
-                  #about .soft{ grid-column: span 12 !important; }
-                }
-              `}</style>
+                  <p className="card-text">{p.desc}</p>
 
-              <div style={{ marginTop: 12, color: "rgba(15,23,42,.55)", fontSize: 13 }}>
-                ※「短いほどプロ」：まずは3行の要件からでもOK。
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* PROJECTS */}
-      <section id="projects" className="section" style={{ paddingTop: 0 }}>
-        <div className="container">
-          <div style={{ display: "flex", alignItems: "end", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
-            <h2 style={{ fontSize: "clamp(26px, 3.6vw, 40px)" }}>Projects</h2>
-            <p className="lead" style={{ maxWidth: 520 }}>
-              “課題 → 解決 → 成果”で書くほど案件が増えやすい（ここは次に一緒に詰めよう）。
-            </p>
-          </div>
-
-          <div style={{ height: 16 }} />
-
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: 14 }}>
-            <div className="glass" style={{ gridColumn: "span 7", padding: 22 }}>
-              <div className="kicker">Selected work</div>
-              <div style={{ height: 8 }} />
-              <h3 style={{ fontSize: 18 }}>IRZAM Portfolio</h3>
-              <div style={{ height: 8 }} />
-              <p>
-                “高級感 + 読みやすさ”を両立した、案件獲得用のポートフォリオ。
-                美容サロン向けに「予約導線」と「スマホ体験」を最適化する提案ができます。
-              </p>
-              <div style={{ height: 14 }} />
-              <div className="chips">
-                {["Next.js", "TypeScript", "Tailwind", "Vercel"].map((t) => (
-                  <span key={t} className="chip">{t}</span>
-                ))}
-              </div>
-              <div style={{ height: 16 }} />
-              <a className="btn btn-primary" href="#" onClick={(e)=>e.preventDefault()}>
-                Open（制作中のため後でリンク差し替え）
-              </a>
-            </div>
-
-            <div className="card" style={{ gridColumn: "span 5", padding: 22 }}>
-              <div className="kicker">Next</div>
-              <div style={{ height: 8 }} />
-              <h3 style={{ fontSize: 18 }}>Project 2（準備中）</h3>
-              <div style={{ height: 8 }} />
-              <p>
-                美容サロンLP（仮）：メニュー/料金・アクセス・予約導線まで整えた“反応が取れる形”のサンプルを作成予定。
-              </p>
-              <div style={{ height: 14 }} />
-              <div className="chips">
-                {["LP", "予約導線", "UI改善"].map((t) => (
-                  <span key={t} className="chip">{t}</span>
-                ))}
-              </div>
-              <div style={{ height: 16 }} />
-              <span className="btn btn-ghost">Coming soon</span>
-            </div>
-          </div>
-
-          <style>{`
-            @media (max-width: 900px){
-              #projects .glass{ grid-column: span 12 !important; }
-              #projects .card{ grid-column: span 12 !important; }
-            }
-          `}</style>
-        </div>
-      </section>
-
-      {/* PRICING */}
-      <section id="pricing" className="section">
-        <div className="container">
-          <div className="glass" style={{ padding: 28 }}>
-            <h2 style={{ fontSize: "clamp(26px, 3.6vw, 40px)" }}>Pricing</h2>
-            <div style={{ height: 10 }} />
-            <p style={{ maxWidth: 860 }}>
-              料金は<b style={{ color: "var(--text)" }}>「ページ数」より「設計の深さ」</b>で変わります。
-              まずは目的・参考サイト・期限だけ送ってください。最短で方向性と見積りを出します。
-            </p>
-
-            <div style={{ height: 16 }} />
-
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(12, 1fr)", gap: 14 }}>
-              {pricing.map((p) => (
-                <div key={p.name} className="card" style={{ gridColumn: "span 4", padding: 22 }}>
-                  <div className="kicker">{p.name}</div>
-                  <div style={{ height: 8 }} />
-                  <div style={{ fontSize: 26, fontWeight: 800, letterSpacing: "-.02em" }}>{p.price}</div>
-                  <div style={{ height: 6 }} />
-                  <div style={{ color: "rgba(15,23,42,.68)", fontSize: 14 }}>{p.for}</div>
-
-                  <div style={{ height: 12 }} />
-                  <div style={{ display: "grid", gap: 8 }}>
-                    {p.points.map((pt) => (
-                      <div key={pt} style={{ display: "flex", gap: 10, alignItems: "baseline" }}>
-                        <span style={{ width: 6, height: 6, borderRadius: 99, background: "rgba(15,23,42,.55)", marginTop: 7 }} />
-                        <span style={{ color: "var(--muted)", fontSize: 14, lineHeight: 1.7 }}>{pt}</span>
-                      </div>
+                  <div className="tags">
+                    {p.tags.map((t) => (
+                      <span key={t} className="tag">
+                        {t}
+                      </span>
                     ))}
                   </div>
+
+                  {isSoon ? (
+                    <div className="muted small mt8">
+                      ※制作中：完成後にリンクと説明を差し替えます。
+                    </div>
+                  ) : null}
                 </div>
-              ))}
-            </div>
-
-            <style>{`
-              @media (max-width: 900px){
-                #pricing .card{ grid-column: span 12 !important; }
-              }
-            `}</style>
-
-            <div style={{ height: 14 }} />
-            <div style={{ color: "rgba(15,23,42,.55)", fontSize: 13 }}>
-              ※ 目安です。内容（予約導線/文章作成/写真素材/ページ数）で前後します。
-            </div>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* CONTACT */}
-      <section id="contact" className="section" style={{ paddingTop: 0 }}>
+      {/* Contact */}
+      <section id="contact" className="section">
         <div className="container">
-          <div className="glass" style={{ padding: 28 }}>
-            <h2 style={{ fontSize: "clamp(26px, 3.6vw, 40px)" }}>Contact</h2>
-            <div style={{ height: 10 }} />
-            <p style={{ maxWidth: 780 }}>
-              相談 → すぐ提案まで出します。<br />
-              「何を作りたいか」「参考サイト」「期限」だけでOK。
-            </p>
+          <div className="section-head">
+            <h2 className="h2">Contact</h2>
+            <p className="muted">相談 → すぐ提案まで出します。「目的」「参考サイト」「期限」だけでOK。</p>
+          </div>
 
-            <div style={{ height: 14 }} />
-
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-              {/* ↓自分のメールに変える */}
-              <a
-                className="btn btn-primary"
-                href="mailto:your.email@example.com?subject=Web%E5%88%B6%E4%BD%9C%E7%9B%B8%E8%AB%87&body=%E3%80%90%E7%9B%B8%E8%AB%87%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%80%91%0A%E7%9B%AE%E7%9A%84%EF%BC%9A%0A%E7%B4%8D%E6%9C%9F%EF%BC%9A%0A%E5%8F%82%E8%80%83URL%EF%BC%9A%0A%E4%BA%88%E7%AE%97%EF%BC%9A%EF%BC%88%E4%BB%BB%E6%84%8F%EF%BC%89%0A"
-              >
-                メールで相談
-              </a>
-              <a className="btn" href="https://github.com/irzamcode" target="_blank" rel="noreferrer">
-                GitHub
-              </a>
-            </div>
-
-            <div style={{ height: 12 }} />
-            <div style={{ color: "rgba(15,23,42,.62)", fontSize: 13 }}>
-              ※ SNSは「投稿がしっかりあるなら」入れると強い。まだ薄いなら、まずは <b style={{ color: "var(--text)" }}>メール / GitHub</b> でOK。
-            </div>
-
-            <div style={{ height: 16 }} />
-
-            <div className="card" style={{ padding: 22 }}>
-              <div style={{ fontWeight: 800, fontSize: 16 }}>送る内容（このままでOK）</div>
-              <div style={{ height: 12 }} />
-
-              <div style={{ display: "grid", gap: 10 }}>
-                <div className="soft" style={{ padding: 14, border: "1px solid var(--line)" }}>
-                  <div style={{ fontWeight: 700 }}>目的</div>
-                  <div style={{ color: "var(--muted)", marginTop: 6 }}>例）美容サロンLP / 店舗サイト / 既存サイト改善</div>
+          <div className="grid2">
+            <div className="card">
+              <div className="card-title">まずはこのまま送ってOK</div>
+              <div className="template">
+                <div className="template-row">
+                  <div className="template-key">目的</div>
+                  <div className="template-val">例）美容サロンのLP / 店舗サイト / ポートフォリオ改善</div>
                 </div>
-                <div className="soft" style={{ padding: 14, border: "1px solid var(--line)" }}>
-                  <div style={{ fontWeight: 700 }}>納期</div>
-                  <div style={{ color: "var(--muted)", marginTop: 6 }}>例）1週間 / 2週間</div>
+                <div className="template-row">
+                  <div className="template-key">期限</div>
+                  <div className="template-val">例）1週間 / 2週間</div>
                 </div>
-                <div className="soft" style={{ padding: 14, border: "1px solid var(--line)" }}>
-                  <div style={{ fontWeight: 700 }}>参考URL</div>
-                  <div style={{ color: "var(--muted)", marginTop: 6 }}>例）URL 2〜3個（近い雰囲気でOK）</div>
+                <div className="template-row">
+                  <div className="template-key">参考URL</div>
+                  <div className="template-val">例）URL 2〜3個（近い雰囲気でOK）</div>
                 </div>
               </div>
 
-              <div style={{ marginTop: 14, color: "rgba(15,23,42,.55)", fontSize: 13 }}>
-                Tip：Projectsは「課題 → 解決 → 成果」で書くほど案件が増えやすい。
+              <div className="muted small mt12">
+                Tip：Projectsは「課題 → 解決 → 成果」で書くほど、案件が増えやすい。
+              </div>
+            </div>
+
+            <div className="card">
+              <div className="card-title">連絡先</div>
+              <p className="card-text">
+                メールが一番早いです。SNSは投稿が増えてから強くなるので、今はメール/GitHubでOK。
+              </p>
+
+              <div className="hero-cta">
+                <a className="btn btn-primary" href={`mailto:${SITE.email}?subject=Web制作の相談`}>
+                  メールで相談
+                </a>
+                <a className="btn btn-ghost" href={SITE.github} target="_blank" rel="noreferrer">
+                  GitHub
+                </a>
+              </div>
+
+              <div className="muted small mt12">
+                返信しやすいように「目的・期限・参考URL」を添えて送ってください。
               </div>
             </div>
           </div>
         </div>
       </section>
+
+      {/* Footer */}
+      <footer className="footer">
+        <div className="container footer-inner">
+          <div className="footer-brand">
+            <div className="brand">{SITE.brand}.</div>
+            <div className="muted">Clean & premium web experiences. Built with Next.js.</div>
+          </div>
+
+          <SocialLinks />
+
+          <div className="footer-copy muted">© {new Date().getFullYear()} {SITE.brand}. All rights reserved.</div>
+        </div>
+      </footer>
     </main>
   );
 }
