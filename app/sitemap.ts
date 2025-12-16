@@ -1,14 +1,12 @@
 import type { MetadataRoute } from "next";
 
-const SITE_URL = "https://irzam-portfolio-mocha.vercel.app";
-
 export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModified = new Date();
+  const baseUrl = "https://irzam-portfolio-mocha.vercel.app";
 
   return [
     {
-      url: SITE_URL,
-      lastModified,
+      url: `${baseUrl}/`,
+      lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 1,
     },
