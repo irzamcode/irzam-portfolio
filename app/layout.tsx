@@ -1,61 +1,35 @@
-import "./globals.css";
 import type { Metadata } from "next";
-import { Noto_Sans_JP, Noto_Serif_JP } from "next/font/google";
+import "./globals.css";
 
-const sans = Noto_Sans_JP({
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
-  variable: "--font-sans",
-  display: "swap",
-});
-
-const serif = Noto_Serif_JP({
-  subsets: ["latin"],
-  weight: ["500", "700"],
-  variable: "--font-serif",
-  display: "swap",
-});
-
-const SITE_URL = "https://irzam-portfolio-mocha.vercel.app"; // ★あなたの本番URLに合わせる
+const site = {
+  name: "IRZAM Beauty",
+  url: "https://YOUR-VERCEL-DOMAIN.vercel.app", // ←あとで独自ドメインに変える
+  description:
+    "美容室/ネイル/エステ/眉/バーバー向け。予約・問い合わせにつながる導線、読みやすい文章、表示速度、基本SEO/OGPまでセットで整えるWeb制作。",
+};
 
 export const metadata: Metadata = {
-  metadataBase: new URL(SITE_URL),
-  title: "IRZAM Beauty | サロン向けWeb制作（予約・問い合わせに強い）",
-  description:
-    "美容室/ネイル/エステ/アイブロウ向け。上品で、速くて、予約・問い合わせにつながるWeb制作。導線設計/表示速度/SEO/運用しやすさまで一気通貫。",
-  alternates: { canonical: "/" },
+  metadataBase: new URL(site.url),
+  title: {
+    default: `${site.name}｜美容サロン向け Web制作`,
+    template: `%s｜${site.name}`,
+  },
+  description: site.description,
   openGraph: {
-    title: "IRZAM Beauty | サロン向けWeb制作",
-    description:
-      "上品で、速くて、予約・問い合わせにつながる。サロンの“売上に効く”Webを設計します。",
-    url: SITE_URL,
-    siteName: "IRZAM Beauty",
+    title: `${site.name}｜美容サロン向け Web制作`,
+    description: site.description,
+    url: site.url,
+    siteName: site.name,
+    locale: "ja_JP",
     type: "website",
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "IRZAM Beauty | サロン向けWeb制作",
-    description: "予約・問い合わせに強い導線設計 / 表示速度 / SEO / 運用しやすさ",
-  },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "ProfessionalService",
-    name: "IRZAM Beauty",
-    url: SITE_URL,
-    areaServed: "JP",
-    serviceType: "Salon website / landing page / SEO / performance",
-  };
-
   return (
-    <html lang="ja" className={`${sans.variable} ${serif.variable}`}>
-      <body className="min-h-dvh font-[var(--font-sans)]">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
+    <html lang="ja">
+      <body>
         {children}
       </body>
     </html>
