@@ -22,7 +22,7 @@ type Monthly = {
 };
 
 type WorkItem = {
-  id: string;   // ✅ 追加
+  id: string;
   title: string;
   href: string;
   img?: string;
@@ -199,30 +199,13 @@ function PlanCard({ plan, consultHref }: { plan: Plan; consultHref: string }) {
   );
 }
 
-function MonthlyCard({ m }: { m: Monthly }) {
-  return (
-    <div className="rounded-2xl border border-slate-200 bg-white/60 p-5 backdrop-blur-sm">
-      <div className="text-base font-extrabold text-slate-900">{m.name}</div>
-      <div className="mt-1 text-xl font-extrabold text-slate-900">{m.price}</div>
-      <ul className="mt-3 space-y-1 text-sm text-slate-700">
-        {m.items.map((it) => (
-          <li key={it} className="flex gap-2">
-            <span className="text-slate-500">•</span>
-            <span>{it}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
 function WorksGrid({ works }: { works: WorkItem[] }) {
   return (
     <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6">
       {works.map((w) => (
         <Link
-  key={w.id}
-  href={w.href}
+          key={w.id}
+          href={w.href}
           target="_blank"
           rel="noopener noreferrer"
           className={cn(
@@ -241,12 +224,11 @@ function WorksGrid({ works }: { works: WorkItem[] }) {
                   (e.currentTarget as HTMLImageElement).style.display = "none";
                 }}
               />
-            ) : null}
-
-            {/* 画像が無い場合も“未完成”に見せない */}
-            <div className="flex h-full w-full items-center justify-center px-6 text-center text-sm font-semibold text-slate-600">
-              {w.img ? "" : "制作例は提案時に共有します（業種に合わせて最適化）"}
-            </div>
+            ) : (
+              <div className="flex h-full w-full items-center justify-center px-6 text-center text-sm font-semibold text-slate-600">
+                制作例は提案時に共有します（業種に合わせて最適化）
+              </div>
+            )}
           </div>
 
           <div className="p-4">
@@ -278,6 +260,48 @@ function FaqItem({ q, a }: { q: string; a: string }) {
   );
 }
 
+function MonthlyBand({ plans }: { plans: Monthly[] }) {
+  return (
+    <div className="mt-8 rounded-3xl border border-slate-200 bg-white/60 p-5 backdrop-blur-sm sm:p-6">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <div className="text-sm font-extrabold text-slate-900">
+            月額（保守・運用） ※必要な方のみ
+          </div>
+          <p className="mt-1 text-sm leading-7 text-slate-600">
+            更新や小修正を任せたい方だけ、月額で対応します（契約日開始・契約期間なし）。
+          </p>
+        </div>
+        <div className="text-xs font-semibold text-slate-600">
+          ※まずは無料で見積り（相談でOK）
+        </div>
+      </div>
+
+      <div className="mt-4 grid gap-3 sm:grid-cols-2">
+        {plans.map((m) => (
+          <div
+            key={m.name}
+            className="rounded-2xl border border-slate-200 bg-white/70 p-4"
+          >
+            <div className="flex items-baseline justify-between gap-3">
+              <div className="text-sm font-extrabold text-slate-900">{m.name}</div>
+              <div className="text-sm font-extrabold text-slate-900">{m.price}</div>
+            </div>
+            <ul className="mt-2 space-y-1 text-sm text-slate-700">
+              {m.items.map((it) => (
+                <li key={it} className="flex gap-2">
+                  <span className="text-slate-500">•</span>
+                  <span>{it}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function Page() {
   const site = {
     brand: "IRZAM Web Studio",
@@ -290,7 +314,6 @@ export default function Page() {
     },
   };
 
-  // メール：件名/本文を自動入力
   const mailSubject = "Web制作のご相談（IRZAM Web Studio）";
   const mailBody = `【ご相談内容】（このまま送れます）
 ・業種：
@@ -321,7 +344,6 @@ export default function Page() {
 ・ご予算感：
 `;
 
-  // ✅ “売れる”を邪魔しない名称に（集客/売上ワードは残してもOKだが、過度に煽らない）
   const oneTimePlans: Plan[] = [
     {
       name: "Mini",
@@ -361,45 +383,62 @@ export default function Page() {
     },
   ];
 
-  const monthlyPlans: Monthly[] = [
+  const spotPlans: Plan[] = [
     {
-      name: "Light（保守・小修正）",
-      price: "¥4,980 / 月",
-      items: ["テキスト修正 月1回まで", "軽微な表示崩れ対応"],
+      name: "単発修正（スポット）",
+      badge: "人気",
+      price: "¥12,000〜",
+      lead: "「ここだけ直したい」に対応。着手前に金額を確定してから進めます。",
+      items: [
+        "文言修正 / リンク修正 / 画像差し替え など（1箇所）",
+        "その他軽微修正（軽い崩れ・微調整など）",
+        "事前に内容確認 → 金額確定 → 着手",
+      ],
     },
     {
-      name: "Standard（運用サポート）",
-      price: "¥9,800 / 月",
-      items: ["修正 月3回まで", "改善提案（導線/文言）"],
-    },
-    {
-      name: "Pro（優先対応）",
-      price: "¥19,800 / 月",
-      items: ["修正多め", "簡単な改善（計測/微調整）", "優先対応"],
+      name: "作業パック（改修）",
+      price: "¥25,000（90分）/ ¥45,000（3時間）",
+      lead: "改修が複数ある方向け。増えたら追加パックで明確に進めます。",
+      items: [
+        "複数箇所をまとめて対応",
+        "時間内で対応範囲を明確化",
+        "追加が出た場合は追加パックで対応",
+      ],
     },
   ];
 
-  // 実績：未完成を見せないため、いまは“強いものだけ”
-  const works: WorkItem[] = useMemo(
-  () => [
+  const monthlyPlans: Monthly[] = [
     {
-      id: "sales", // ✅ 追加
-      title: "営業サイト（このページ）",
-      href: "https://irzam-portfolio-mocha.vercel.app/",
-      img: "/works/irzam-webstudio.png",
-      note: "構成 / 導線 / 実装（Next.js）",
+      name: "Light",
+      price: "¥6,980 / 月",
+      items: ["月1回のテキスト修正", "軽微な表示崩れ対応"],
     },
     {
-      id: "examples", // ✅ 追加
-      title: "制作例（業種に合わせて提案時に共有）",
-      href: "https://irzam-portfolio-mocha.vercel.app/",
-      note: "美容・ネイル・エステ・眉 など",
+      name: "Standard",
+      price: "¥12,800 / 月",
+      items: ["月3回まで修正", "軽い改善提案（導線/文言）", "優先対応"],
     },
-  ],
-  []
-);
+  ];
 
-  // スマホメニュー開閉（下に飛ばない）
+  const works: WorkItem[] = useMemo(
+    () => [
+      {
+        id: "sales",
+        title: "営業サイト（このページ）",
+        href: "https://irzam-portfolio-mocha.vercel.app/",
+        img: "/works/irzam-webstudio.png",
+        note: "構成 / 導線 / 実装（Next.js）",
+      },
+      {
+        id: "examples",
+        title: "制作例（業種に合わせて提案時に共有）",
+        href: "https://irzam-portfolio-mocha.vercel.app/",
+        note: "美容・ネイル・エステ・眉 など",
+      },
+    ],
+    []
+  );
+
   const [menuOpen, setMenuOpen] = useState(false);
 
   const navItems = [
@@ -420,7 +459,6 @@ export default function Page() {
 
   return (
     <main className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
-      {/* Header */}
       <header className="fade-up flex items-center justify-between">
         <div className="text-lg font-extrabold tracking-tight text-slate-900">
           {site.brand}
@@ -439,7 +477,6 @@ export default function Page() {
           ))}
         </nav>
 
-        {/* Mobile Menu Button */}
         <div className="sm:hidden">
           <button
             type="button"
@@ -451,7 +488,6 @@ export default function Page() {
         </div>
       </header>
 
-      {/* Mobile Menu Overlay */}
       {menuOpen ? (
         <div className="fixed inset-0 z-50 sm:hidden">
           <div
@@ -495,7 +531,6 @@ export default function Page() {
         </div>
       ) : null}
 
-      {/* Hero */}
       <section className="fade-up relative mt-8 overflow-hidden rounded-3xl border border-slate-200/60 bg-white/40 p-6 shadow-sm backdrop-blur-md sm:mt-10 sm:p-10">
         <div
           aria-hidden
@@ -509,19 +544,14 @@ export default function Page() {
         <div className="relative">
           <Chip>{site.forWho}</Chip>
 
-          
-
- <h1 className="mt-5 text-balance font-extrabold tracking-tight text-slate-900 leading-[1.06]">
-  <span className="block text-[clamp(30px,6.4vw,64px)]">上品で、速いWeb制作</span>
-  <span className="block text-[clamp(26px,5.6vw,54px)] text-slate-800">
-    予約・お問い合わせにつなげます
-  </span>
-</h1>
-
-<p className="mt-4 max-w-3xl text-sm leading-7 text-slate-700 sm:text-base">
-  {site.sub}
-</p>
-
+          <h1 className="mt-5 text-balance font-extrabold tracking-tight text-slate-900 leading-[1.06]">
+            <span className="block text-[clamp(30px,6.4vw,64px)]">
+              上品で、速いWeb制作
+            </span>
+            <span className="block text-[clamp(26px,5.6vw,54px)] text-slate-800">
+              予約・お問い合わせにつなげます
+            </span>
+          </h1>
 
           <p className="mt-4 max-w-3xl text-sm leading-7 text-slate-700 sm:text-base">
             {site.sub}
@@ -547,7 +577,6 @@ export default function Page() {
         </div>
       </section>
 
-      {/* Service */}
       <section className="mt-12 sm:mt-16" id="service">
         <SectionTitle
           kicker="サービス"
@@ -574,12 +603,11 @@ export default function Page() {
         </div>
       </section>
 
-      {/* Works */}
       <section className="mt-12 sm:mt-16" id="works">
         <SectionTitle
           kicker="実績"
           title="制作例（クリックで確認）"
-          sub="実案件に近い形で、構成と導線を作り込んだものを掲載します。"
+          sub="業種に合わせた構成例を掲載しています。実際の提案では内容に合わせて最適化します。"
         />
         <WorksGrid works={works} />
         <p className="mt-3 text-xs text-slate-600">
@@ -587,12 +615,11 @@ export default function Page() {
         </p>
       </section>
 
-      {/* Pricing */}
       <section className="mt-12 sm:mt-16" id="pricing">
         <SectionTitle
           kicker="料金"
           title="買い切り（制作）プラン"
-          sub="内容/ページ数/素材の揃い具合で調整します。見積もり無料です。"
+          sub="表示価格は目安です。内容により価格が前後します。無料でお見積りします。"
         />
 
         <div className="mt-6 grid gap-5 lg:grid-cols-3">
@@ -601,24 +628,22 @@ export default function Page() {
           ))}
         </div>
 
-        {/* 月額（料金の下に小さめで） */}
-        <div className="mt-8">
-          <div className="text-sm font-extrabold text-slate-900">
-            月額（保守・運用） ※必要な方のみ
-          </div>
-          <p className="mt-2 text-sm leading-7 text-slate-600">
-            「納品して終わり」もOKです。更新や小修正を任せたい方だけ、月額で対応します。
-          </p>
-
-          <div className="mt-4 grid gap-4 sm:grid-cols-3">
-            {monthlyPlans.map((m) => (
-              <MonthlyCard key={m.name} m={m} />
+        <div className="mt-10">
+          <SectionTitle
+            kicker="単発修正"
+            title="直したい時だけ（スポット）"
+            sub="最小 ¥12,000〜。事前に金額を確定してから着手します。"
+          />
+          <div className="mt-6 grid gap-5 lg:grid-cols-2">
+            {spotPlans.map((p) => (
+              <PlanCard key={p.name} plan={p} consultHref={consultHref} />
             ))}
           </div>
         </div>
+
+        <MonthlyBand plans={monthlyPlans} />
       </section>
 
-      {/* FAQ（開く形式：前の形式を維持） */}
       <section className="mt-12 sm:mt-16" id="faq">
         <SectionTitle
           kicker="FAQ"
@@ -645,7 +670,6 @@ export default function Page() {
         </div>
       </section>
 
-      {/* Contact */}
       <section className="mt-12 sm:mt-16" id="contact">
         <SectionTitle
           kicker="相談"
