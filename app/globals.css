@@ -1,8 +1,75 @@
 @import "tailwindcss";
 
-/* 最低限の土台（@applyは使わず事故らない形） */
-html, body { height: 100%; }
-body {
-  background: #f8fafc; /* slate-50相当 */
-  color: #0f172a;      /* slate-900相当 */
+/* ===== Base ===== */
+:root{
+  --bg1: 255 247 250; /* pink-ish */
+  --bg2: 244 250 255; /* sky-ish */
+  --bg3: 246 245 255; /* lilac-ish */
+  --ink: 15 23 42;    /* slate-900 */
+}
+
+html, body{
+  height: 100%;
+}
+
+body{
+  color: rgb(var(--ink));
+  /* ✅ 背景を “段差” じゃなくて “広く” ブレンドさせる */
+  background:
+    radial-gradient(1200px 600px at 10% 0%, rgba(255, 190, 220, 0.22), transparent 60%),
+    radial-gradient(1100px 700px at 90% 15%, rgba(160, 220, 255, 0.22), transparent 62%),
+    radial-gradient(900px 650px at 55% 100%, rgba(185, 170, 255, 0.18), transparent 60%),
+    linear-gradient(180deg, rgb(var(--bg1)) 0%, rgb(var(--bg2)) 45%, rgb(var(--bg3)) 100%);
+  background-attachment: fixed;
+}
+
+/* 画像やボーダーの見た目を安定 */
+*{
+  -webkit-tap-highlight-color: transparent;
+}
+img{
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ===== Utilities (あなたのpage.tsxが使ってるクラス) ===== */
+
+/* ✅ ガラスカード：白ベタじゃなく半透明＋境目を溶かす */
+.glass{
+  background: rgba(255,255,255,0.60);
+  border: 1px solid rgba(148,163,184,0.28);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.65) inset,
+    0 18px 50px rgba(2,6,23,0.06);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.glass-strong{
+  background: rgba(255,255,255,0.78);
+  border: 1px solid rgba(148,163,184,0.30);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.75) inset,
+    0 22px 70px rgba(2,6,23,0.08);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+/* ✅ ふわっと上に上がる演出（page.tsxで fade-up 使ってる） */
+.fade-up{
+  animation: fadeUp .6s ease both;
+}
+@keyframes fadeUp{
+  from{ opacity: 0; transform: translateY(10px); }
+  to  { opacity: 1; transform: translateY(0); }
+}
+
+/* ✅ 背景の丸いブラーをほんのり動かす（floaty 使ってる） */
+.floaty{
+  animation: floaty 7s ease-in-out infinite;
+}
+@keyframes floaty{
+  0%,100%{ transform: translate3d(0,0,0); }
+  50%    { transform: translate3d(0,-12px,0); }
 }

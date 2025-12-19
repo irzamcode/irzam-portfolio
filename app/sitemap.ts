@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 
-const SITE_URL = "https://irzam-portfolio-mocha.vercel.app"; // ★本番URL
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://irzam-portfolio-mocha.vercel.app";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
