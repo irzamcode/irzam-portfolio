@@ -73,3 +73,80 @@ img{
   0%,100%{ transform: translate3d(0,0,0); }
   50%    { transform: translate3d(0,-12px,0); }
 }
+
+/* ===== Noir Aura theme (only used inside .theme-noir) ===== */
+.theme-noir {
+  --noir-bg: #070707;
+  --noir-panel: rgba(255,255,255,0.06);
+  --noir-border: rgba(255,255,255,0.14);
+  --noir-muted: rgba(255,255,255,0.72);
+  --noir-faint: rgba(255,255,255,0.55);
+}
+
+.theme-noir .noir-container{
+  max-width: 1100px;
+  margin: 0 auto;
+  padding-left: 18px;
+  padding-right: 18px;
+}
+
+.theme-noir .noir-h2{
+  font-size: 28px;
+  letter-spacing: 0.08em;
+  font-weight: 500;
+}
+
+.theme-noir .noir-kicker{
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  color: var(--noir-faint);
+  text-transform: uppercase;
+}
+
+.theme-noir .noir-card{
+  background: var(--noir-panel);
+  border: 1px solid var(--noir-border);
+  border-radius: 14px;
+}
+
+.theme-noir .noir-link{
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255,255,255,0.35);
+}
+
+.theme-noir .noir-btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255,255,255,0.55);
+  border-radius: 999px;
+  padding: 10px 14px;
+  letter-spacing: 0.08em;
+}
+
+.theme-noir .noir-btn-solid{
+  background: white;
+  color: black;
+  border-color: white;
+}
+
+.theme-noir .noir-pageTop{
+  position: fixed;
+  right: 10px;
+  bottom: 90px;
+  writing-mode: vertical-rl;
+  letter-spacing: 0.18em;
+  font-size: 12px;
+  color: rgba(255,255,255,0.65);
+  user-select: none;
+  z-index: 40;
+}
+
+.theme-noir .noir-pageTop::before{
+  content:"";
+  display:block;
+  width:1px;
+  height:56px;
+  background: rgba(255,255,255,0.35);
+  margin: 0 auto 10px;
+}

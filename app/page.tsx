@@ -421,24 +421,24 @@ export default function Page() {
   ];
 
   const works: WorkItem[] = useMemo(
-    () => [
-      {
-        id: "sales",
-        title: "営業サイト（このページ）",
-        href: "https://irzam-portfolio-mocha.vercel.app/",
-        img: "/works/irzam-webstudio.png",
-        note: "構成 / 導線 / 実装（Next.js）",
-      },
-      {
-        id: "examples",
-        title: "制作例（業種に合わせて提案時に共有）",
-        href: "https://irzam-portfolio-mocha.vercel.app/",
-        note: "美容・ネイル・エステ・眉 など",
-      },
-    ],
-    []
-  );
-
+  () => [
+    {
+      id: "noir-aura",
+      title: "高単価サロン向けデモ（NOIR AURA）",
+      href: "/noir-aura",
+      img: "/works/noir-aura.png", // ← 画像置けたら表示される
+      note: "黒×余白×導線設計 / モーダル予約（デモ）",
+    },
+    {
+      id: "next-demo",
+      title: "次の制作例（制作中）",
+      href: "#contact", // ← とりあえず相談に飛ばすのが一番強い
+      img: "/works/coming-soon.png", // なくてもOK（なければテキスト表示）
+      note: "別業種のデモを追加予定（公開前）",
+    },
+  ],
+  []
+);
   const [menuOpen, setMenuOpen] = useState(false);
 
   const navItems = [
