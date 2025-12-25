@@ -1,45 +1,47 @@
 "use client";
 
-import { menu } from "../_data/menu";
+import type { MenuCategory } from "../_data/menu";
 
-export default function MenuModal({
-  open,
-  onClose,
-}: {
+type Props = {
   open: boolean;
   onClose: () => void;
-}) {
-  if (!open) return null;
+  category: MenuCategory | null; // ✅ これ追加
+};
+
+export default function MenuModal({ open, onClose, category }: Props) {
+  if (!open || !category) return null;
 
   return (
-    <div className="noir-modal" role="dialog" aria-modal="true">
-      <button className="noir-modal__backdrop" onClick={onClose} aria-label="close" />
-      <div className="noir-modal__panel">
-        <div className="noir-modal__top">
-          <p className="noir-modal__logo">NOIR AURA</p>
-          <button className="noir-modal__close" onClick={onClose} aria-label="close">
-            ×
-          </button>
+    <div className="modalOverlay" role="dialog" aria-modal="true">
+      <div className="modalBox">
+        <button className="modalClose" onClick={onClose} aria-label="Close">
+          ×
+        </button>
+
+        <div className="modalHead">
+          <div className="modalKicker">PRICE</div>
+          <div className="modalTitle">{category.title}</div>
+          {category.subtitle ? (
+            <div className="modalSub">{category.subtitle}</div>
+          ) : null}
         </div>
 
-        <div className="noir-modal__body">
-          {menu.map((cat) => (
-            <div key={cat.title} className="noir-menuBlock">
-              <h3 className="noir-menuBlock__title">{cat.title}</h3>
-              <ul className="noir-menuList">
-                {cat.items.map((it) => (
-                  <li key={it.name} className="noir-menuItem">
-                    <span className="noir-menuItem__name">{it.name}</span>
-                    <span className="noir-menuItem__price">{it.price}</span>
-                    {it.note ? <span className="noir-menuItem__note">{it.note}</span> : null}
-                  </li>
-                ))}
-              </ul>
+        <div className="modalList">
+          {category.items.map((it) => (
+            <div key={it.name} className="modalRow">
+              <div className="modalName">
+                <div>{it.name}</div>
+                {it.note ? <div className="modalNote">{it.note}</div> : null}
+              </div>
+              <div className="modalPrice">{it.price}</div>
             </div>
           ))}
-          <p className="noir-modal__note">
-            ※価格は目安です。髪の状態・履歴・希望により変動します。施術前に必ず確認します。
-          </p>
+        </div>
+
+        <div className="modalFoot">
+          <div className="modalSmall">
+            ※目安。髪の長さ/履歴/希望で変動します（デモ）。
+          </div>
         </div>
       </div>
     </div>
