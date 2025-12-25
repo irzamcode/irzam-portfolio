@@ -1,12 +1,17 @@
+export type MenuItem = { name: string; price: string; note?: string };
+
 export type MenuCategory = {
+  id: "cut" | "color" | "care";
   title: string;
-  items: { name: string; price: string; note?: string }[];
+  subtitle?: string; // ✅追加（あってもなくてもOK）
+  items: MenuItem[];
 };
 
-// ✅ Vercel側のビルドが探してる名前
 export const menuCategories: MenuCategory[] = [
   {
+    id: "cut",
     title: "Cut Menu",
+    subtitle: "Design / Top / Director（デモ）",
     items: [
       { name: "Cut", price: "¥6,600〜", note: "シャンプー&ブロー込み" },
       { name: "Bangs Cut", price: "¥1,320〜" },
@@ -14,7 +19,9 @@ export const menuCategories: MenuCategory[] = [
     ],
   },
   {
+    id: "color",
     title: "Color Menu",
+    subtitle: "Transparency / Damage-care（デモ）",
     items: [
       { name: "Color", price: "¥8,800〜" },
       { name: "Bleach", price: "¥9,900〜" },
@@ -22,7 +29,9 @@ export const menuCategories: MenuCategory[] = [
     ],
   },
   {
+    id: "care",
     title: "Care Menu",
+    subtitle: "Treatment / Spa（デモ）",
     items: [
       { name: "Treatment", price: "¥4,400〜" },
       { name: "Head Spa", price: "¥4,400〜" },
@@ -30,5 +39,5 @@ export const menuCategories: MenuCategory[] = [
   },
 ];
 
-// ✅ もし他の場所で menu を使ってるなら互換のため残す
+// 互換（どっちでimportしても動くように）
 export const menu = menuCategories;
