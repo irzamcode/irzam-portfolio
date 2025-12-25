@@ -3,7 +3,8 @@ export type MenuCategory = {
   items: { name: string; price: string; note?: string }[];
 };
 
-export const menu: MenuCategory[] = [
+// ✅ Vercel側のビルドが探してる名前
+export const menuCategories: MenuCategory[] = [
   {
     title: "Cut Menu",
     items: [
@@ -28,3 +29,6 @@ export const menu: MenuCategory[] = [
     ],
   },
 ];
+
+// ✅ もし他の場所で menu を使ってるなら互換のため残す
+export const menu = menuCategories;
