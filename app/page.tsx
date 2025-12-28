@@ -253,6 +253,31 @@ function FaqItem({ q, a }: { q: string; a: string }) {
   );
 }
 
+type PackOption = {
+  hours: "3h" | "6h";
+  price: string;
+};
+
+type Plan = {
+  name: string;
+  price?: string;
+  days?: string;
+  forWho?: string[];
+  includes?: string[];
+  excludes?: string[];
+  flow?: string;
+  packOptions?: PackOption[];
+};
+
+// planOrder のキーを型として使う
+type PlanKey =
+  | "standard"
+  | "growth"
+  | "spot"
+  | "pack"
+  | "monthlyLight"
+  | "monthlyStandard";
+
 // 全プラン詳細の定数（モーダル横移動用に順序を定義）
 const planOrder = [
   "standard",
@@ -263,7 +288,7 @@ const planOrder = [
   "monthlyStandard",
 ] as const;
 
-const planDetails = {
+const planDetails: Record<PlanKey, Plan> = {
   standard: {
     name: "Standard",
     price: "¥198,000",
@@ -287,6 +312,7 @@ const planDetails = {
     ],
     flow: "ヒアリング → デザイン提案 → 制作 → 修正（2回まで） → 納品",
   },
+
   growth: {
     name: "Growth",
     price: "¥298,000",
@@ -302,11 +328,10 @@ const planDetails = {
       "計測の準備（GA4導入サポート等・軽微）",
       "公開後の改善サポート 2ヶ月（軽微）",
     ],
-    excludes: [
-      "大規模な機能追加（別見積）",
-    ],
+    excludes: ["大規模な機能追加（別見積）"],
     flow: "ヒアリング → デザイン提案 → 制作 → 修正（2回まで） → 納品 → 改善サポート（2ヶ月）",
   },
+
   spot: {
     name: "単発修正（スポット）",
     price: "¥15,000",
@@ -325,6 +350,7 @@ const planDetails = {
       "構成変更・全面デザイン変更（別見積）",
     ],
   },
+
   pack: {
     name: "作業パック（改修）",
     price: "要相談",
@@ -347,6 +373,7 @@ const planDetails = {
       "構成変更・全面デザイン変更（別見積）",
     ],
   },
+
   monthlyLight: {
     name: "月額 Light",
     price: "¥9,800/月",
@@ -364,6 +391,7 @@ const planDetails = {
       "月2回以上の更新（Standardプランへ誘導）",
     ],
   },
+
   monthlyStandard: {
     name: "月額 Standard",
     price: "¥19,800/月",
@@ -386,7 +414,7 @@ const planDetails = {
 export default function Page() {
   const [toastShow, setToastShow] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const [selectedPlanKey, setSelectedPlanKey] = useState<string | null>(null);
+  const [selectedPlanKey, setSelectedPlanKey] = useState<PlanKey | null>(null);
   const [selectedPackHours, setSelectedPackHours] = useState<"3h" | "6h">("3h");
   const lineHref = "https://lin.ee/kfrCGfH";
   const email = "irzam.code@gmail.com";
@@ -401,7 +429,7 @@ export default function Page() {
     setTimeout(() => setToastShow(false), 2000);
   };
 
-  const handlePlanDetail = (planKey: string) => {
+  const handlePlanDetail = (planKey: PlanKey) => {
     setSelectedPlanKey(planKey);
     setModalOpen(true);
   };
@@ -436,9 +464,7 @@ export default function Page() {
   const hasPrev = currentIndex > 0;
   const hasNext = currentIndex < planOrder.length - 1;
 
-  const currentPlan = selectedPlanKey
-    ? planDetails[selectedPlanKey as keyof typeof planDetails]
-    : null;
+  const currentPlan = selectedPlanKey ? planDetails[selectedPlanKey] : null;
 
   // メール相談用のmailtoリンク
   const mailSubject = encodeURIComponent("IRZAM Web Studio 相談");
