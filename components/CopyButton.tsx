@@ -5,9 +5,11 @@ import { useState } from "react";
 export function CopyButton({
   text,
   label = "テンプレをコピー",
+  onCopy: onCopyCallback,
 }: {
   text: string;
   label?: string;
+  onCopy?: () => void;
 }) {
   const [done, setDone] = useState(false);
 
@@ -15,6 +17,7 @@ export function CopyButton({
     try {
       await navigator.clipboard.writeText(text);
       setDone(true);
+      onCopyCallback?.();
       setTimeout(() => setDone(false), 1500);
     } catch {
       // clipboardが使えない環境向けのフォールバック
@@ -25,6 +28,7 @@ export function CopyButton({
       document.execCommand("copy");
       document.body.removeChild(ta);
       setDone(true);
+      onCopyCallback?.();
       setTimeout(() => setDone(false), 1500);
     }
   };

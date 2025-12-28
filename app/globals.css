@@ -14,11 +14,11 @@ html, body{
 
 body{
   color: rgb(var(--ink));
-  /* ✅ 背景を “段差” じゃなくて “広く” ブレンドさせる */
+  /* ✅ 背景を "段差" じゃなくて "広く" ブレンドさせる */
   background:
-    radial-gradient(1200px 600px at 10% 0%, rgba(255, 190, 220, 0.22), transparent 60%),
-    radial-gradient(1100px 700px at 90% 15%, rgba(160, 220, 255, 0.22), transparent 62%),
-    radial-gradient(900px 650px at 55% 100%, rgba(185, 170, 255, 0.18), transparent 60%),
+    radial-gradient(1200px 600px at 10% 0%, rgba(255, 190, 220, 0.15), transparent 60%),
+    radial-gradient(1100px 700px at 90% 15%, rgba(160, 220, 255, 0.15), transparent 62%),
+    radial-gradient(900px 650px at 55% 100%, rgba(185, 170, 255, 0.12), transparent 60%),
     linear-gradient(180deg, rgb(var(--bg1)) 0%, rgb(var(--bg2)) 45%, rgb(var(--bg3)) 100%);
   background-attachment: fixed;
 }
@@ -149,4 +149,117 @@ img{
   height:56px;
   background: rgba(255,255,255,0.35);
   margin: 0 auto 10px;
+}
+
+/* ===== 泡の粒アニメーション ===== */
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(2px);
+  animation: bubble-float 20s infinite ease-in-out;
+  opacity: 0.6;
+}
+
+.bubble-1 {
+  width: 60px;
+  height: 60px;
+  left: 10%;
+  bottom: -60px;
+  animation-delay: 0s;
+  animation-duration: 25s;
+}
+
+.bubble-2 {
+  width: 40px;
+  height: 40px;
+  left: 25%;
+  bottom: -40px;
+  animation-delay: 2s;
+  animation-duration: 20s;
+}
+
+.bubble-3 {
+  width: 80px;
+  height: 80px;
+  left: 45%;
+  bottom: -80px;
+  animation-delay: 4s;
+  animation-duration: 30s;
+}
+
+.bubble-4 {
+  width: 50px;
+  height: 50px;
+  left: 65%;
+  bottom: -50px;
+  animation-delay: 1s;
+  animation-duration: 22s;
+}
+
+.bubble-5 {
+  width: 35px;
+  height: 35px;
+  left: 80%;
+  bottom: -35px;
+  animation-delay: 3s;
+  animation-duration: 18s;
+}
+
+.bubble-6 {
+  width: 70px;
+  height: 70px;
+  left: 15%;
+  bottom: -70px;
+  animation-delay: 5s;
+  animation-duration: 28s;
+}
+
+.bubble-7 {
+  width: 45px;
+  height: 45px;
+  left: 55%;
+  bottom: -45px;
+  animation-delay: 2.5s;
+  animation-duration: 24s;
+}
+
+.bubble-8 {
+  width: 55px;
+  height: 55px;
+  left: 75%;
+  bottom: -55px;
+  animation-delay: 4.5s;
+  animation-duration: 26s;
+}
+
+@keyframes bubble-float {
+  0% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(-100vh) translateX(30px) scale(1.1);
+    opacity: 0.4;
+  }
+  100% {
+    transform: translateY(-200vh) translateX(-20px) scale(0.9);
+    opacity: 0;
+  }
+}
+
+/* ===== トーストアニメーション ===== */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
 }
