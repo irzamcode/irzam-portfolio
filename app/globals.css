@@ -263,3 +263,13 @@ img{
 .animate-fade-in {
   animation: fade-in 0.3s ease-out;
 }
+
+/* ===== 横スクロールナビゲーション ===== */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

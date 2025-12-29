@@ -2,11 +2,20 @@
 
 import { useEffect, useRef } from "react";
 
+function cn(...classes: Array<string | false | null | undefined>) {
+  return classes.filter(Boolean).join(" ");
+}
+
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   title: string;
   children: React.ReactNode;
+  planNav?: {
+    plans: Array<{ key: string; label: string }>;
+    currentKey: string;
+    onSelect: (key: string) => void;
+  };
   onNavigate?: {
     prev?: () => void;
     next?: () => void;
@@ -20,10 +29,12 @@ export function Modal({
   onClose,
   title,
   children,
+  planNav,
   onNavigate,
 }: ModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const navRef = useRef<HTMLDivElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
@@ -43,6 +54,15 @@ export function Modal({
       if (contentRef.current) {
         contentRef.current.scrollTop = 0;
       }
+      // ナビゲーションのスクロール位置を調整
+      if (navRef.current && planNav) {
+        const activeButton = navRef.current.querySelector(
+          `[data-plan-key="${planNav.currentKey}"]`
+        ) as HTMLElement;
+        if (activeButton) {
+          activeButton.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+        }
+      }
     } else {
       // 背景スクロールを復元
       document.body.style.overflow = "";
@@ -53,7 +73,7 @@ export function Modal({
     return () => {
       document.body.style.overflow = "";
     };
-  }, [isOpen]);
+  }, [isOpen, planNav]);
 
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -130,12 +150,39 @@ export function Modal({
           </button>
         </div>
 
+        {/* プランナビゲーション（横スクロール） */}
+        {planNav && planNav.plans.length > 1 && (
+          <div className="border-b border-slate-200 bg-slate-50/50">
+            <div
+              ref={navRef}
+              className="flex gap-2 overflow-x-auto px-6 py-3 sm:px-8 scrollbar-hide"
+              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+            >
+              {planNav.plans.map((plan) => (
+                <button
+                  key={plan.key}
+                  data-plan-key={plan.key}
+                  onClick={() => planNav.onSelect(plan.key)}
+                  className={cn(
+                    "shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold transition-all whitespace-nowrap",
+                    plan.key === planNav.currentKey
+                      ? "bg-slate-900 text-white shadow-sm"
+                      : "bg-white text-slate-600 hover:bg-slate-100 hover:text-slate-900 border border-slate-200"
+                  )}
+                >
+                  {plan.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* コンテンツ（スクロール可能） */}
         <div ref={contentRef} className="flex-1 overflow-y-auto p-6 sm:p-8">
           {children}
         </div>
 
-        {/* ナビゲーション（横移動） */}
+        {/* ナビゲーション（前へ/次へ） */}
         {onNavigate && (onNavigate.hasPrev || onNavigate.hasNext) && (
           <div className="flex items-center justify-between p-4 border-t border-slate-200 bg-slate-50/50">
             <button

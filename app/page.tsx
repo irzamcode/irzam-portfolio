@@ -1,5 +1,12 @@
 "use client";
 
+/**
+ * 制作実例の画像を変更する場合：
+ * - 画像ファイルは public/works/ 配下に配置
+ * - 以下の works 配列の img プロパティを更新
+ * - 例: { img: "/works/noir-aura.png" } → { img: "/works/新しい画像.png" }
+ */
+
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { Toast } from "@/components/Toast";
@@ -239,175 +246,192 @@ function ServiceCard({
 
 function FaqItem({ q, a }: { q: string; a: string }) {
   return (
-    <details className="group rounded-2xl border border-slate-200 bg-white/80 p-5 shadow-md hover:shadow-lg transition-all">
+    <details className="group rounded-2xl border-2 border-slate-200 bg-gradient-to-br from-white to-slate-50/50 p-5 shadow-md hover:shadow-lg hover:border-pink-200 transition-all">
       <summary className="cursor-pointer text-sm font-extrabold text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 rounded">
         <div className="flex items-center justify-between gap-3">
-          <span>{q}</span>
-          <span className="text-2xl text-slate-400 transition-transform duration-200 group-open:rotate-45">
+          <span className="leading-relaxed">{q}</span>
+          <span className="text-2xl text-pink-500 transition-transform duration-200 group-open:rotate-45 shrink-0">
             ＋
           </span>
         </div>
       </summary>
-      <p className="mt-3 text-sm leading-7 text-slate-600">{a}</p>
+      <div className="mt-4 pt-4 border-t border-slate-200">
+        <p className="text-sm leading-7 text-slate-700">{a}</p>
+      </div>
     </details>
   );
 }
 
-type PackOption = {
-  hours: "3h" | "6h";
-  price: string;
-};
-
-type Plan = {
-  name: string;
-  price?: string;
-  days?: string;
-  forWho?: string[];
-  includes?: string[];
-  excludes?: string[];
-  flow?: string;
-  packOptions?: PackOption[];
-};
-
-// planOrder のキーを型として使う
 type PlanKey =
   | "standard"
   | "growth"
   | "spot"
   | "pack"
-  | "monthlyLight"
-  | "monthlyStandard";
+  | "monthly";
 
-// 全プラン詳細の定数（モーダル横移動用に順序を定義）
-const planOrder = [
+const planOrder: PlanKey[] = [
   "standard",
   "growth",
   "spot",
   "pack",
-  "monthlyLight",
-  "monthlyStandard",
-] as const;
+  "monthly",
+];
 
-const planDetails: Record<PlanKey, Plan> = {
+const planLabels: Record<PlanKey, string> = {
+  standard: "Standard",
+  growth: "Growth",
+  spot: "単発修正",
+  pack: "作業パック",
+  monthly: "月額",
+};
+
+// 成約コピーに完全差し替え
+const planDetails: Record<PlanKey, any> = {
   standard: {
     name: "Standard",
     price: "¥198,000",
     days: "目安14日（素材揃い後）",
+    hook: "“予約につながる見せ方”まで整えた、信頼されるLPを最短で。",
     forWho: [
-      "予約を増やしたいサロン",
-      "HOTPEPPER/LINEへの導線を整えたい",
-      "上品な見た目で信頼感を高めたい",
+      "HOTPEPPER/LINEに流しても反応が弱い（迷わせている）",
+      "見た目がチープで単価・指名に繋がりにくい",
+      "まずは“ちゃんとしたLP”を一発で作って反応を見たい",
+    ],
+    results: [
+      "迷わず予約/相談に進む導線になる",
+      "見た目の信頼感が上がり、比較で負けにくくなる",
+      "表示が速く、離脱が減る",
     ],
     includes: [
-      "LP 1ページ（スマホ最適化・PC対応）",
-      "HOTPEPPER/LINEへの導線設計",
+      "LP 1ページ制作（スマホ最優先＋PCも綺麗に最適化）",
+      "構成整理（読まれる順番で、伝わる形に再設計）",
+      "CTA設計（LINE/HOTPEPPERへの導線を最適化）",
+      "文言の強化（短く・刺さる・不安が減る）",
       "表示速度最適化（Next.js）",
-      "基本SEO・OGP設定",
-      "制作中2回までの修正対応",
-      "納品後の軽微修正 14日",
+      "基本SEO/OGP",
+      "修正：制作中2回まで",
     ],
-    excludes: [
-      "複数ページの下層ページ（別見積）",
-      "大規模な構成変更（別見積）",
-    ],
-    flow: "ヒアリング → デザイン提案 → 制作 → 修正（2回まで） → 納品",
+    flow: "ヒアリング → 設計 → 制作 → 修正 → 公開",
+    note: "※下層ページ追加や大幅な構成変更が必要な場合は別途提案します。",
   },
-
   growth: {
     name: "Growth",
     price: "¥298,000",
     days: "目安21日（素材揃い後）",
+    hook: "“選ばれる理由”まで作り切る。予約だけでなく単価・指名にも効くLPへ。",
     forWho: [
-      "予約率をさらに上げたいサロン",
-      "比較・不安解消まで設計したい",
-      "公開後の改善サポートも欲しい",
+      "予約はもちろん、単価UP/指名/リピートにも繋げたい",
+      "強みが言葉になっていなくて、比較で埋もれている",
+      "“何をどう見せるか”から一緒に詰めて完成度を上げたい",
+    ],
+    results: [
+      "選ばれる理由が明確になり、比較で勝てる",
+      "不安が先回りで潰れ、相談・予約が増えやすい",
+      "伝えたい価値が整理され、広告/紹介にも強くなる",
     ],
     includes: [
-      "Standardの全て",
-      "予約率を上げる導線設計（比較/不安解消/FAQ強化）",
-      "計測の準備（GA4導入サポート等・軽微）",
-      "公開後の改善サポート 2ヶ月（軽微）",
+      "Standardの全内容",
+      "強みの言語化（刺さる一言・見出し設計）",
+      "不安つぶし設計（比較/実例/FAQ/流れの最適化）",
+      "セクション追加・改善調整（成約率寄りに整える）",
+      "修正：制作中3回まで（改善調整込み）",
     ],
-    excludes: ["大規模な機能追加（別見積）"],
-    flow: "ヒアリング → デザイン提案 → 制作 → 修正（2回まで） → 納品 → 改善サポート（2ヶ月）",
+    flow: "ヒアリング（強み/客層/単価）→ 設計 → 制作 → 改善調整 → 公開",
+    note: "※大規模な機能開発や複数ページ化は別途相談です。",
   },
-
   spot: {
     name: "単発修正（スポット）",
     price: "¥15,000",
+    hook: "“ここだけ直したい”を、最短でプロ品質に。",
     forWho: [
-      "「ここだけ直したい」という要望がある",
-      "軽微な修正を1箇所だけ対応してほしい",
-      "緊急で修正が必要",
+      "ボタン文言/配置/余白など、1点だけで反応を上げたい",
+      "表示崩れや違和感を今すぐ直したい",
+    ],
+    results: [
+      "1箇所の弱点を潰して、離脱を減らせる",
+      "見た目の粗が消えて、信頼感が上がる",
+      "自分で触って崩す不安がなくなる",
     ],
     includes: [
-      "文言修正 / リンク修正 / 画像差し替え（1箇所）",
-      "その他軽微修正（軽い崩れ・微調整など）",
-      "事前に内容確認 → 金額確定 → 着手",
+      "1箇所の修正（文言/リンク/軽いレイアウト/崩れ）",
+      "スマホ/PCチェック込み",
+      "反映・公開まで対応",
     ],
-    excludes: [
-      "複数箇所の修正（作業パック推奨）",
-      "構成変更・全面デザイン変更（別見積）",
-    ],
+    flow: "スクショで指示 → 修正 → 反映",
+    note: "※複数箇所なら作業パックの方が早く・お得です。",
   },
-
   pack: {
-    name: "作業パック（改修）",
+    name: "作業パック（まとめて改善）",
     price: "要相談",
     packOptions: [
       { hours: "3h", price: "¥55,000" },
       { hours: "6h", price: "¥99,000" },
     ],
+    hook: "細かい改善をまとめて一気に整える。完成度が一段上がります。",
     forWho: [
-      "複数箇所をまとめて対応したい",
-      "改修が複数ある",
-      "時間内で対応範囲を明確化したい",
+      "直したい所が複数ある（導線/文言/配置/余白/見せ方）",
+      "1回で“ちゃんと強い”状態に仕上げたい",
+    ],
+    results: [
+      "“もったいない箇所”が消えて反応が上がる",
+      "見せ方が揃ってプロっぽくなる",
+      "優先順位も整理され、やることが明確になる",
     ],
     includes: [
       "複数箇所をまとめて対応",
       "時間内で対応範囲を明確化",
-      "追加が出た場合は追加パックで対応",
+      "改善提案（押される配置/文言/導線の整備）",
+      "反映・公開まで",
     ],
-    excludes: [
-      "大規模改修（別見積）",
-      "構成変更・全面デザイン変更（別見積）",
-    ],
+    flow: "修正リスト共有 → 優先順位整理 → 一括作業 → 反映",
+    note: "※LPを新規で作り直す規模なら制作プランが最短です。",
   },
-
-  monthlyLight: {
-    name: "月額 Light",
-    price: "¥9,800/月",
-    forWho: [
-      "月1回の軽微な更新で十分",
-      "文言修正や画像差し替えを任せたい",
-      "コストを抑えながら保守したい",
-    ],
-    includes: [
-      "月1回まで：文言修正、画像差し替えなど軽微な更新",
-      "軽微な表示崩れ対応",
-    ],
-    excludes: [
-      "大きな導線変更や構成変更（作業パックへ誘導）",
-      "月2回以上の更新（Standardプランへ誘導）",
-    ],
-  },
-
-  monthlyStandard: {
-    name: "月額 Standard",
-    price: "¥19,800/月",
-    forWho: [
-      "月2回の更新と改善提案が欲しい",
-      "導線修正や軽い改善を継続したい",
-      "優先対応を受けたい",
-    ],
-    includes: [
-      "月2回まで：導線修正＋軽い改善提案（例：CTA改善、FAQ整理、見出し調整など）",
-      "優先対応",
-    ],
-    excludes: [
-      "大規模改修（作業パックへ誘導）",
-      "月3回以上の更新（別途作業パック）",
-    ],
+  monthly: {
+    name: "月額",
+    light: {
+      name: "月額 Light",
+      price: "¥9,800/月",
+      hook: "放置しないだけで反応は落ちません。月1回、確実に更新。",
+      forWho: [
+        "忙しくて更新が止まりがち",
+        "自分で触って崩すのが怖い",
+        "まずは最低限の運用を回したい",
+      ],
+      results: [
+        "“放置による劣化”を防げる",
+        "更新のたびに見た目が整う",
+        "いつでも相談できる安心感が増える",
+      ],
+      includes: [
+        "月1回まで：文言/画像差し替え程度",
+        "スマホ/PCチェック",
+        "反映・公開",
+      ],
+      flow: "更新内容を送る → 差し替え → 反映",
+      note: "※導線の組み替えや改善提案まで必要なら月額Standardがおすすめ。",
+    },
+    standard: {
+      name: "月額 Standard",
+      price: "¥19,800/月",
+      hook: "月2回、“少しずつ良くする”。運用で予約が増えるLPへ。",
+      forWho: [
+        "月2回ペースで導線も整えながら育てたい",
+        "何を直すと効くか、提案も欲しい",
+        "少しずつ“成約寄り”に寄せたい",
+      ],
+      results: [
+        "導線が良くなり、相談/予約が増えやすくなる",
+        "改善が積み上がって強いLPになる",
+        "常に最新の状態を保てる",
+      ],
+      includes: [
+        "月2回まで：導線修正＋軽い改善提案",
+        "スマホ/PCチェック",
+        "反映・公開",
+      ],
+      flow: "現状確認 → 改善案 → 反映 → 次回へ",
+      note: "※大規模改修や新規制作は制作プランで対応します。",
+    },
   },
 };
 
@@ -415,14 +439,16 @@ export default function Page() {
   const [toastShow, setToastShow] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedPlanKey, setSelectedPlanKey] = useState<PlanKey | null>(null);
+  const [selectedMonthly, setSelectedMonthly] = useState<"light" | "standard">("light");
   const [selectedPackHours, setSelectedPackHours] = useState<"3h" | "6h">("3h");
+  const [menuOpen, setMenuOpen] = useState(false);
   const lineHref = "https://lin.ee/kfrCGfH";
   const email = "irzam.code@gmail.com";
   const consultTemplate = `業種：
-目的（予約増/単価UP/採用など）：
+目的（予約増/単価UP/採用）：
 参考URL：
-予算感：
-希望納期：`;
+希望納期：
+予算感：`;
 
   const handleCopy = () => {
     setToastShow(true);
@@ -439,9 +465,13 @@ export default function Page() {
     setTimeout(() => setSelectedPlanKey(null), 300);
   };
 
+  const handlePlanNav = (key: string) => {
+    setSelectedPlanKey(key as PlanKey);
+  };
+
   const getCurrentIndex = () => {
     if (!selectedPlanKey) return -1;
-    return planOrder.indexOf(selectedPlanKey as typeof planOrder[number]);
+    return planOrder.indexOf(selectedPlanKey);
   };
 
   const handleNavigate = (direction: "prev" | "next") => {
@@ -471,9 +501,102 @@ export default function Page() {
   const mailBody = encodeURIComponent(consultTemplate);
   const mailtoHref = `mailto:${email}?subject=${mailSubject}&body=${mailBody}`;
 
+  // プランナビゲーション用のデータ
+  const planNavData = selectedPlanKey
+    ? {
+        plans:
+          selectedPlanKey === "monthly"
+            ? [
+                { key: "monthly-light", label: "Light" },
+                { key: "monthly-standard", label: "Standard" },
+              ]
+            : planOrder.map((key) => ({
+                key,
+                label: planLabels[key],
+              })),
+        currentKey:
+          selectedPlanKey === "monthly"
+            ? `monthly-${selectedMonthly}`
+            : selectedPlanKey,
+        onSelect: (key: string) => {
+          if (key.startsWith("monthly-")) {
+            const type = key.split("-")[1] as "light" | "standard";
+            setSelectedMonthly(type);
+          } else {
+            handlePlanNav(key);
+          }
+        },
+      }
+    : undefined;
+
+  const scrollTo = (id: string) => {
+    setMenuOpen(false);
+    const el = document.getElementById(id);
+    el?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const navItems = [
+    { id: "works", label: "実例" },
+    { id: "pricing", label: "料金" },
+    { id: "faq", label: "FAQ" },
+    { id: "contact", label: "相談" },
+  ];
+
   return (
     <>
       <main className="relative min-h-screen">
+        {/* 右上固定メニュー */}
+        <div className="fixed top-4 right-4 z-50 sm:top-6 sm:right-6">
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="rounded-full bg-white/90 backdrop-blur-sm border-2 border-slate-200 p-3 shadow-lg hover:shadow-xl transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2"
+            aria-label="メニュー"
+          >
+            <div className="flex flex-col gap-1.5 w-5">
+              <span
+                className={cn(
+                  "h-0.5 bg-slate-900 rounded-full transition-all",
+                  menuOpen && "rotate-45 translate-y-2"
+                )}
+              />
+              <span
+                className={cn(
+                  "h-0.5 bg-slate-900 rounded-full transition-all",
+                  menuOpen && "opacity-0"
+                )}
+              />
+              <span
+                className={cn(
+                  "h-0.5 bg-slate-900 rounded-full transition-all",
+                  menuOpen && "-rotate-45 -translate-y-2"
+                )}
+              />
+            </div>
+          </button>
+          {menuOpen && (
+            <div className="absolute top-14 right-0 w-48 rounded-2xl bg-white/95 backdrop-blur-sm border-2 border-slate-200 shadow-xl p-2">
+              {navItems.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => scrollTo(item.id)}
+                  className="w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-900 hover:bg-slate-100 transition-colors"
+                >
+                  {item.label}
+                </button>
+              ))}
+              <div className="mt-2 pt-2 border-t border-slate-200">
+                <PrimaryButton
+                  href={lineHref}
+                  target="_blank"
+                  className="text-xs py-2"
+                >
+                  LINEで相談
+                </PrimaryButton>
+              </div>
+            </div>
+          )}
+        </div>
+
         {/* 泡の粒背景 */}
         <div className="fixed inset-0 overflow-hidden pointer-events-none">
           <div className="bubble bubble-1"></div>
@@ -490,13 +613,13 @@ export default function Page() {
           {/* 1. Hero */}
           <FadeSection>
             <section className="text-center py-8 sm:py-12 lg:py-16">
-              <h1 className="text-[clamp(28px,5vw,48px)] font-extrabold tracking-tight text-slate-900 leading-[1.15] sm:text-[clamp(36px,6vw,64px)] lg:text-[clamp(42px,7vw,72px)] text-balance">
+              <h1 className="text-[clamp(32px,6vw,56px)] font-extrabold tracking-tight text-slate-900 leading-[1.1] sm:text-[clamp(40px,7vw,72px)] lg:leading-[1.05]">
                 <span className="block">予約が入る</span>
                 <span className="block mt-2 sm:mt-3">
-                  <span className="whitespace-nowrap text-pink-600 bg-gradient-to-r from-pink-100 to-pink-50 px-3 py-1 rounded-2xl inline-block">
+                  <span className="whitespace-nowrap text-pink-600 bg-gradient-to-r from-pink-100 to-pink-50 px-3 py-1.5 rounded-2xl inline-block">
                     "綺麗なLP"
                   </span>
-                  <span className="inline sm:inline"> を、最短で。</span>
+                  <span className="inline sm:inline"> を最短で。</span>
                 </span>
               </h1>
               <p className="mt-4 text-sm text-slate-600 sm:text-base lg:text-lg max-w-xl mx-auto">
@@ -508,10 +631,12 @@ export default function Page() {
                 HOTPEPPER/LINEに迷わせず繋げます。
               </p>
               <div className="mt-10 grid gap-4 sm:grid-cols-2 sm:max-w-md sm:mx-auto lg:max-w-lg">
-                <PrimaryButton href={lineHref} target="_blank">
+                <PrimaryButton href={lineHref} target="_blank" className="min-h-[44px]">
                   無料で相談する（LINE）
                 </PrimaryButton>
-                <GhostButton href="#works">制作実例を見る</GhostButton>
+                <GhostButton href="#works" className="min-h-[44px]">
+                  制作実例を見る
+                </GhostButton>
               </div>
             </section>
           </FadeSection>
@@ -523,7 +648,7 @@ export default function Page() {
                 title="予約が増える理由"
                 sub="導線・速度・高そうに見える。この3つで選ばれます。"
               />
-              <div className="mt-10 grid gap-6 sm:grid-cols-3 lg:gap-8">
+              <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
                 {[
                   {
                     title: "導線設計",
@@ -540,12 +665,12 @@ export default function Page() {
                 ].map((item, i) => (
                   <div
                     key={i}
-                    className="rounded-2xl border border-slate-200 bg-white/80 p-6 shadow-md hover:shadow-lg transition-all lg:p-8"
+                    className="rounded-2xl border border-slate-200 bg-white/80 p-6 shadow-md hover:shadow-lg transition-all sm:p-7 lg:p-8"
                   >
-                    <div className="text-lg font-extrabold text-slate-900 lg:text-xl">
+                    <div className="text-lg font-extrabold text-slate-900 sm:text-xl lg:text-2xl">
                       {item.title}
                     </div>
-                    <p className="mt-3 text-sm leading-6 text-slate-600 lg:text-base">
+                    <p className="mt-3 text-sm leading-7 text-slate-600 sm:text-base sm:leading-8 lg:text-lg">
                       {item.desc}
                     </p>
                   </div>
@@ -651,7 +776,7 @@ export default function Page() {
               </div>
               {/* 独自ドメイン注記 */}
               <p className="mt-6 text-xs text-slate-500 text-center">
-                ※独自ドメイン接続（DNS～Vercel～SSL）は別途対応可能。内容により変動します（事前にお見積り）。
+                ※独自ドメイン接続（DNS～Vercel～SSL）：¥29,800（1ドメイン/1サイト）
               </p>
             </section>
           </FadeSection>
@@ -724,14 +849,14 @@ export default function Page() {
                     onDetailClick={() => handlePlanDetail("spot")}
                   />
                   <ServiceCard
-                    title="作業パック（改修）"
+                    title="作業パック（まとめて改善）"
                     price="要相談"
-                    desc="3h / 6h から選択"
+                    desc="3h / 6h"
                     onDetailClick={() => handlePlanDetail("pack")}
                   />
                 </div>
 
-                {/* 月額 */}
+                {/* 月額（統合） */}
                 <div className="rounded-2xl border border-slate-200 bg-white/80 p-6 shadow-md sm:p-8 lg:p-10">
                   <div className="mb-6 text-base font-extrabold text-slate-900 lg:text-lg">
                     月額（保守・運用）任意
@@ -741,13 +866,19 @@ export default function Page() {
                       title="Light"
                       price="¥9,800/月"
                       desc="月1回まで：文言/画像差し替え程度"
-                      onDetailClick={() => handlePlanDetail("monthlyLight")}
+                      onDetailClick={() => {
+                        setSelectedMonthly("light");
+                        handlePlanDetail("monthly");
+                      }}
                     />
                     <ServiceCard
                       title="Standard"
                       price="¥19,800/月"
                       desc="月2回まで：導線修正＋軽い改善提案"
-                      onDetailClick={() => handlePlanDetail("monthlyStandard")}
+                      onDetailClick={() => {
+                        setSelectedMonthly("standard");
+                        handlePlanDetail("monthly");
+                      }}
                     />
                   </div>
                 </div>
@@ -806,11 +937,11 @@ export default function Page() {
                 />
                 <FaqItem
                   q="公開後の変更はどうなりますか？"
-                  a="単発修正（スポット）¥15,000/1箇所、作業パック（3h ¥55,000 / 6h ¥99,000）、または月額プラン（Light ¥9,800/月、Standard ¥19,800/月）で対応可能です。"
+                  a="単発修正（スポット）¥15,000/1箇所、作業パック（6h ¥99,000）、または月額プラン（Light ¥9,800/月、Standard ¥19,800/月）で対応可能です。"
                 />
                 <FaqItem
                   q="独自ドメインは必要ですか？"
-                  a="必須ではありません。VercelでデモURLを納品します。独自ドメイン接続は別途対応可能です（事前にお見積り）。"
+                  a="必須ではありません。VercelでデモURLを納品します。独自ドメイン接続は別途対応可能です（¥29,800）。"
                 />
               </div>
             </section>
@@ -865,10 +996,10 @@ export default function Page() {
             LINE相談
           </PrimaryButton>
           <PrimaryButton
-            href="#pricing"
+            href={mailtoHref}
             className="w-auto whitespace-nowrap bg-pink-600 px-4 py-2.5 text-xs shadow-lg hover:bg-pink-700 sm:px-5 sm:py-3 sm:text-sm"
           >
-            見積もり
+            メール相談
           </PrimaryButton>
         </div>
       </main>
@@ -878,7 +1009,12 @@ export default function Page() {
         <Modal
           isOpen={modalOpen}
           onClose={handleCloseModal}
-          title={currentPlan.name}
+          title={
+            selectedPlanKey === "monthly"
+              ? planDetails.monthly[selectedMonthly].name
+              : currentPlan.name
+          }
+          planNav={planNavData}
           onNavigate={
             hasPrev || hasNext
               ? {
@@ -891,103 +1027,136 @@ export default function Page() {
           }
         >
           <div className="space-y-6">
-            {/* 価格 */}
-            {currentPlan.price && (
-              <div className="rounded-xl bg-gradient-to-br from-slate-50 to-slate-100 p-5">
-                <div className="text-2xl font-extrabold text-slate-900">
-                  {currentPlan.price}
-                </div>
-                {currentPlan.days && (
-                  <div className="mt-1 text-sm text-slate-600">
-                    {currentPlan.days}
-                  </div>
-                )}
-                {/* 作業パックの時間選択 */}
-                {selectedPlanKey === "pack" && currentPlan.packOptions && (
-                  <div className="mt-4 flex gap-2">
-                    {currentPlan.packOptions.map((option) => (
-                      <button
-                        key={option.hours}
-                        onClick={() =>
-                          setSelectedPackHours(option.hours as "3h" | "6h")
-                        }
-                        className={cn(
-                          "flex-1 rounded-lg border-2 px-4 py-2 text-sm font-semibold transition-all",
-                          selectedPackHours === option.hours
-                            ? "border-slate-900 bg-slate-900 text-white"
-                            : "border-slate-300 bg-white text-slate-900 hover:border-slate-400"
-                        )}
-                      >
-                        {option.hours} {option.price}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
+            {(() => {
+              const plan =
+                selectedPlanKey === "monthly"
+                  ? planDetails.monthly[selectedMonthly]
+                  : currentPlan;
 
-            {/* こんな人向け */}
-            {currentPlan.forWho && (
-              <div>
-                <h3 className="text-lg font-extrabold text-slate-900 mb-3">
-                  こんな人におすすめ
-                </h3>
-                <ul className="space-y-2">
-                  {currentPlan.forWho.map((item, i) => (
-                    <li key={i} className="flex gap-2 text-sm text-slate-700">
-                      <span className="text-pink-600 font-bold">✓</span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+              return (
+                <>
+                  {/* 刺しの一言 */}
+                  {plan.hook && (
+                    <div className="rounded-xl bg-gradient-to-br from-pink-50 to-pink-100/50 p-5 border-2 border-pink-200">
+                      <p className="text-lg font-extrabold text-slate-900 leading-relaxed">
+                        {plan.hook}
+                      </p>
+                    </div>
+                  )}
 
-            {/* 含まれるもの */}
-            {currentPlan.includes && (
-              <div>
-                <h3 className="text-lg font-extrabold text-slate-900 mb-3">
-                  含まれるもの
-                </h3>
-                <ul className="space-y-2">
-                  {currentPlan.includes.map((item, i) => (
-                    <li key={i} className="flex gap-2 text-sm text-slate-700">
-                      <span className="mt-1 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-slate-900 text-xs font-bold text-white">
-                        ✓
-                      </span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+                  {/* 価格 */}
+                  {plan.price && (
+                    <div className="rounded-xl bg-gradient-to-br from-slate-50 to-slate-100 p-5">
+                      <div className="text-2xl font-extrabold text-slate-900">
+                        {selectedPlanKey === "pack" && plan.packOptions
+                          ? plan.packOptions.find((opt: { hours: string; price: string }) => opt.hours === selectedPackHours)?.price || plan.price
+                          : plan.price}
+                      </div>
+                      {plan.days && (
+                        <div className="mt-1 text-sm text-slate-600">
+                          {plan.days}
+                        </div>
+                      )}
+                      {/* 作業パックの時間選択 */}
+                      {selectedPlanKey === "pack" && plan.packOptions && (
+                        <div className="mt-4 flex gap-2">
+                          {plan.packOptions.map((option: { hours: string; price: string }) => (
+                            <button
+                              key={option.hours}
+                              onClick={() =>
+                                setSelectedPackHours(option.hours as "3h" | "6h")
+                              }
+                              className={cn(
+                                "flex-1 rounded-lg border-2 px-4 py-2 text-sm font-semibold transition-all",
+                                selectedPackHours === option.hours
+                                  ? "border-slate-900 bg-slate-900 text-white"
+                                  : "border-slate-300 bg-white text-slate-900 hover:border-slate-400"
+                              )}
+                            >
+                              {option.hours} {option.price}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
 
-            {/* 含まれない/注意点 */}
-            {currentPlan.excludes && currentPlan.excludes.length > 0 && (
-              <div>
-                <h3 className="text-lg font-extrabold text-slate-900 mb-3">
-                  含まれない / 注意点（最重要）
-                </h3>
-                <ul className="space-y-2">
-                  {currentPlan.excludes.map((item, i) => (
-                    <li key={i} className="flex gap-2 text-sm text-slate-600">
-                      <span className="text-slate-400">•</span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+                  {/* こんな方に */}
+                  {plan.forWho && (
+                    <div>
+                      <h3 className="text-lg font-extrabold text-slate-900 mb-3">
+                        こんな方に
+                      </h3>
+                      <ul className="space-y-2">
+                        {plan.forWho.map((item: string, i: number) => (
+                          <li key={i} className="flex gap-2 text-sm text-slate-700">
+                            <span className="text-pink-600 font-bold shrink-0">✓</span>
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
 
-            {/* 制作の流れ */}
-            {currentPlan.flow && (
-              <div className="rounded-xl bg-slate-50 p-4">
-                <h3 className="text-sm font-extrabold text-slate-900 mb-2">
-                  進め方
-                </h3>
-                <p className="text-sm text-slate-700">{currentPlan.flow}</p>
-              </div>
-            )}
+                  {/* 得られる結果 */}
+                  {plan.results && (
+                    <div>
+                      <h3 className="text-lg font-extrabold text-slate-900 mb-3">
+                        これで得られる結果
+                      </h3>
+                      <ul className="space-y-2">
+                        {plan.results.map((item: string, i: number) => (
+                          <li key={i} className="flex gap-2 text-sm text-slate-700">
+                            <span className="mt-1 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-pink-500 text-xs font-bold text-white">
+                              ✓
+                            </span>
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* 含まれる内容 */}
+                  {plan.includes && (
+                    <div>
+                      <h3 className="text-lg font-extrabold text-slate-900 mb-3">
+                        含まれる内容
+                      </h3>
+                      <ul className="space-y-2">
+                        {plan.includes.map((item: string, i: number) => (
+                          <li key={i} className="flex gap-2 text-sm text-slate-700">
+                            <span className="mt-1 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-slate-900 text-xs font-bold text-white">
+                              ✓
+                            </span>
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* 進め方 */}
+                  {plan.flow && (
+                    <div className="rounded-xl bg-slate-50 p-4 border border-slate-200">
+                      <h3 className="text-sm font-extrabold text-slate-900 mb-2">
+                        進め方
+                      </h3>
+                      <p className="text-sm text-slate-700">{plan.flow}</p>
+                    </div>
+                  )}
+
+                  {/* 注記 */}
+                  {plan.note && (
+                    <div className="rounded-xl bg-amber-50/50 border border-amber-200 p-4">
+                      <p className="text-xs text-slate-600 leading-relaxed">
+                        {plan.note}
+                      </p>
+                    </div>
+                  )}
+                </>
+              );
+            })()}
 
             {/* CTA */}
             <div className="pt-4 border-t border-slate-200 space-y-3">

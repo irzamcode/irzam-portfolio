@@ -278,13 +278,13 @@ export default function Sections({ onReserve }: { onReserve: () => void }) {
    <p className="blockDesc">“選ばれる髪型”を想定したビジュアル設計（デモ）。</p>
   </div>
 
-  <div className="grid3">
+  <div className="grid3 grid3--trend">
     {TREND.map((src, i) => {
       const meta = TREND_META[i] ?? { tag: "STYLE", note: "Signature design（デモ）" };
       return (
         <a
           key={src}
-          className={`imgCard trendCard ${i === 1 ? "imgCard--tall" : ""}`}
+          className="imgCard imgCard--trend trendCard"
           style={{ backgroundImage: `url(${src})` }}
           href="#"
           onClick={(e) => e.preventDefault()}

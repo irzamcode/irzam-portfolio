@@ -224,6 +224,41 @@
   }
 }
 
+/* Trend Collection: スマホで横スクロール */
+.grid3--trend{
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  gap: 14px;
+  padding: 0 0 8px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,.2) transparent;
+}
+
+.grid3--trend::-webkit-scrollbar{
+  height: 6px;
+}
+
+.grid3--trend::-webkit-scrollbar-track{
+  background: transparent;
+}
+
+.grid3--trend::-webkit-scrollbar-thumb{
+  background: rgba(255,255,255,.2);
+  border-radius: 3px;
+}
+
+@media (min-width: 900px){
+  .grid3--trend{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    overflow-x: visible;
+    scroll-snap-type: none;
+    padding: 0;
+  }
+}
+
 /* 共通カード */
 .imgCard{
   background: #111;
@@ -623,14 +658,84 @@
 /* ===== Trend Collection：縦長カード（Trendだけ） ===== */
 .imgCard--trend{
   aspect-ratio: 3 / 4;
+  min-height: auto;
   background-size: cover;
-  background-position: center 10%; /* ←まず10%にして頭を出す */
+  background-position: center 10%;
+  flex: 0 0 auto;
+  width: min(78vw, 280px);
+  scroll-snap-align: start;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  transition: transform .55s ease, filter .55s ease;
+  will-change: transform;
 }
 
 @media (min-width: 900px){
-  .imgCard--trend{
+  .grid3--trend .imgCard--trend{
+    width: 100%;
     aspect-ratio: 2 / 3;
   }
+}
+
+@media (hover:hover){
+  .imgCard--trend:hover{
+    transform: translateY(-6px) scale(1.02);
+    filter: saturate(1.06) contrast(1.06);
+  }
+}
+
+.trendCard{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 18px;
+  color: rgba(255,255,255,.92);
+}
+
+.trendCard::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,.65), rgba(0,0,0,0) 55%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.trendTag,
+.trendNote,
+.trendCap{
+  position: relative;
+  z-index: 2;
+}
+
+.trendTag{
+  font-family: ui-sans-serif, system-ui;
+  font-size: 11px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  opacity: .9;
+  margin-bottom: 6px;
+}
+
+.trendNote{
+  font-family: ui-sans-serif, system-ui;
+  font-size: 12px;
+  opacity: .75;
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+.trendCap{
+  font-family: ui-sans-serif, system-ui;
+  font-size: 11px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  opacity: .85;
+  border-top: 1px solid rgba(255,255,255,.25);
+  padding-top: 8px;
+  margin-top: 4px;
 }
 [data-reveal] .imgCard{
   transform: translateY(10px) scale(1.03);
