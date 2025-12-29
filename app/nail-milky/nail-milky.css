@@ -30,10 +30,11 @@
 
   /* ★背景の白ベール濃さ：小さいほど背景が濃く見える */
   --nm-shell-veil: 0.32;   /* 0.25〜0.45で調整おすすめ */
-  --nm-shell-veil-sp: 0.34;
+  --nm-shell-veil-sp: 0.28; /* スマホで背景をより見えるように */
 
   /* ★内側ガラスの透明感：小さいほど中も背景が入る */
   --nm-panel-alpha: 0.60;  /* 0.52〜0.66で調整おすすめ */
+  --nm-panel-alpha-sp: 0.55; /* スマホでより透明感を */
 }
 
 html, body { height: 100%; }
@@ -90,12 +91,21 @@ body {
     radial-gradient(900px 420px at 18% 6%, rgba(248,210,220,0.62), transparent 55%),
     radial-gradient(900px 420px at 88% 8%, rgba(220,235,255,0.55), transparent 58%),
     rgba(255,245,250,var(--nm-panel-alpha));
+}
 
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+@media (max-width: 768px){
+  .nm {
+    background:
+      radial-gradient(600px 300px at 18% 6%, rgba(248,210,220,0.58), transparent 55%),
+      radial-gradient(600px 300px at 88% 8%, rgba(220,235,255,0.52), transparent 58%),
+      rgba(255,245,250,var(--nm-panel-alpha-sp));
 
-  border: 1px solid rgba(255,255,255,.70);
-  box-shadow: 0 50px 160px rgba(20,10,30,.14);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    border: 1px solid rgba(255,255,255,.70);
+    box-shadow: 0 50px 160px rgba(20,10,30,.14);
+  }
 }
 
 /* 内側のうっすら枠 */
@@ -194,7 +204,13 @@ body {
   position: relative;
   max-width: var(--nm-max);
   margin: 0 auto;
-  padding: 56px 18px 16px;
+  padding: 56px 18px 24px;
+}
+
+@media (max-width: 768px){
+  .nmHero {
+    padding: 48px 16px 20px;
+  }
 }
 .nmHeroBg {
   position: absolute;
@@ -214,15 +230,51 @@ body {
 }
 .nmHeroInner { position: relative; padding: 42px 18px 22px; }
 
-.nmPillRow { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; }
+.nmPillRow {
+  display:flex;
+  flex-wrap:nowrap;
+  gap:10px;
+  margin-bottom:18px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 0 8px;
+  scrollbar-width: none;
+}
+
+.nmPillRow::-webkit-scrollbar{
+  display: none;
+}
+
+@media (min-width: 768px){
+  .nmPillRow {
+    flex-wrap: wrap;
+    overflow-x: visible;
+    scroll-snap-type: none;
+    padding: 0;
+  }
+}
+
 .nmPill {
-  display:inline-flex; align-items:center;
-  padding:8px 12px; border-radius:999px;
+  display:inline-flex;
+  align-items:center;
+  padding:10px 14px;
+  border-radius:999px;
   background: rgba(255,255,255,.62);
   border: 1px solid rgba(230,220,228,.9);
   backdrop-filter: blur(12px);
-  font-size: 12px; font-weight: 900;
+  font-size: 12px;
+  font-weight: 900;
   color: rgba(30,25,28,.70);
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  white-space: nowrap;
+}
+
+@media (min-width: 768px){
+  .nmPill {
+    flex: 0 1 auto;
+  }
 }
 
 .nmHeroTitle {
@@ -234,15 +286,52 @@ body {
   font-size: clamp(34px, 5.2vw, 56px);
 }
 .nmHeroLead {
-  margin-top: 14px;
+  margin-top: 16px;
   max-width: 860px;
   font-size: 14px;
   line-height: 1.95;
   color: rgba(30, 25, 28, 0.60);
   font-weight: 800;
 }
-.nmHeroCtas { margin-top: 18px; display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
-.nmHeroNote { margin-top: 12px; font-size: 12px; color: rgba(30,25,28,.50); font-weight:800; }
+
+@media (max-width: 768px){
+  .nmHeroLead {
+    margin-top: 14px;
+    font-size: 13px;
+    line-height: 1.85;
+  }
+}
+
+.nmHeroCtas {
+  margin-top: 22px;
+  display:flex;
+  flex-direction: column;
+  gap:10px;
+  align-items:stretch;
+}
+
+@media (min-width: 768px){
+  .nmHeroCtas {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+}
+
+.nmHeroNote {
+  margin-top: 16px;
+  font-size: 11px;
+  color: rgba(30,25,28,.50);
+  font-weight:800;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px){
+  .nmHeroNote {
+    margin-top: 14px;
+    font-size: 10px;
+  }
+}
 
 /* =========================
    Marquee
@@ -292,14 +381,32 @@ body {
 }
 
 /* Cards */
-.nmCards3 { margin-top: 18px; display:grid; grid-template-columns:1fr; gap:12px; }
+.nmCards3 {
+  margin-top: 18px;
+  display:grid;
+  grid-template-columns:1fr;
+  gap:14px;
+}
+
+@media (max-width: 768px){
+  .nmCards3 {
+    gap: 16px;
+  }
+}
+
 .nmCard {
   border-radius: var(--nm-radius);
   background: rgba(255,255,255,.62);
   border: 1px solid rgba(230,220,228,.9);
   backdrop-filter: blur(14px);
   box-shadow: 0 16px 45px rgba(30,10,25,.06);
-  padding: 16px;
+  padding: 18px;
+}
+
+@media (max-width: 768px){
+  .nmCard {
+    padding: 20px;
+  }
 }
 .nmCardTitle { font-weight: 1000; letter-spacing: .02em; color: rgba(30,25,28,.85); }
 .nmCardText { margin-top: 6px; color: rgba(30,25,28,.56); font-weight: 800; font-size: 13px; line-height: 1.85; }
