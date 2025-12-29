@@ -699,3 +699,13 @@ body {
     margin: 16px auto 28px;
   }
 }
+/* ===== Mobile only: background stronger ===== */
+@media (max-width: 768px){
+  body{
+    background: linear-gradient(180deg,
+      rgba(255, 230, 238, 0.65) 0%,
+      rgba(236, 245, 255, 0.70) 45%,
+      rgba(255, 240, 246, 0.65) 100%
+    );
+  }
+}
