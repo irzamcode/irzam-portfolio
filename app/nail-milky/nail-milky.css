@@ -81,7 +81,7 @@ body {
 .nm {
   position: relative;
   z-index: 1;
-  max-width: min(1180px, calc(100% - 28px));
+  max-width: min(1180px, calc(100% - 16%));
   margin: 22px auto 40px;
   border-radius: var(--nm-radius2);
   overflow: hidden;
@@ -690,4 +690,12 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .nmMarqueeTrack { animation: none; }
   .nmBtn { transition: none; }
+}
+/* スマホだけ：左右の余白を少し減らして“窮屈さ”を解消 */
+@media (max-width: 768px) {
+  .nm {
+    /* ここが横幅のキモ：28px → 16px にして少し広げる */
+    max-width: min(1180px, calc(100% - 12px));
+    margin: 16px auto 28px;
+  }
 }
