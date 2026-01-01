@@ -12,6 +12,7 @@ import { useEffect, useRef, useState } from "react";
 import { Toast } from "@/components/Toast";
 import { CopyButton } from "@/components/CopyButton";
 import { Modal } from "@/components/Modal";
+import { WorkCaseCard } from "@/components/WorkCaseCard";
 
 function cn(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(" ");
@@ -689,7 +690,7 @@ export default function Page() {
                 title="制作実例"
                 sub="クリックで各デモサイトを確認できます。"
               />
-              <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:gap-8">
+              <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
                 {[
                   {
                     id: "noir-aura",
@@ -751,6 +752,8 @@ export default function Page() {
                     </div>
                   </Link>
                 ))}
+                {/* 3枠目：参考URL再現×成約最適化カード */}
+                <WorkCaseCard />
               </div>
             </section>
           </FadeSection>
