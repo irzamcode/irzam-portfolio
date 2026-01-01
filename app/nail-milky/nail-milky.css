@@ -729,5 +729,4 @@ body.nail-milky {
     max-width: min(1180px, calc(100% - 12px));
     margin: 16px auto 28px;
   }
-}
-/* ✅ スマホ用body背景は削除（漏れの原因） */
+}/* ✅ スマホ用body背景は削除（漏れの原因） */
