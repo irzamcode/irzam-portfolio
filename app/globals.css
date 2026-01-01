@@ -273,3 +273,63 @@ img{
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+/* =========================================================
+   Fix: 戻る/ルート復元でHeroが消える（opacity:0のまま）問題
+   - デフォは必ず表示（アニメが走らなくても消えない）
+   - body.reveal の時だけアニメを発火
+   ========================================================= */
+
+/* デフォは必ず見える */
+.heroKicker,
+.heroTitle,
+.heroLead,
+.heroMeta,
+.heroCtas,
+.heroNote{
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+/* アニメは body.reveal の時だけ */
+body.reveal .heroKicker,
+body.reveal .heroTitle,
+body.reveal .heroLead,
+body.reveal .heroMeta,
+body.reveal .heroCtas,
+body.reveal .heroNote{
+  opacity: 0;
+  transform: translateY(6px);
+  filter: blur(1px);
+  animation: heroIn .72s cubic-bezier(.2,.9,.2,1) forwards;
+}
+
+body.reveal .heroKicker{ animation-delay: .06s; }
+body.reveal .heroTitle{  animation-delay: .12s; }
+body.reveal .heroLead{   animation-delay: .18s; }
+body.reveal .heroMeta{   animation-delay: .26s; }
+body.reveal .heroCtas{   animation-delay: .34s; }
+body.reveal .heroNote{   animation-delay: .42s; }
+
+@keyframes heroIn{
+  to{
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* 動きを減らす設定の人は常に表示 */
+@media (prefers-reduced-motion: reduce){
+  body.reveal .heroKicker,
+  body.reveal .heroTitle,
+  body.reveal .heroLead,
+  body.reveal .heroMeta,
+  body.reveal .heroCtas,
+  body.reveal .heroNote{
+    animation: none;
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}

@@ -7,7 +7,8 @@
    - Mobile：下固定CTA
    ========================= */
 
-:root {
+/* ✅ Milkyは “body.nail-milky” の中だけで完結させる（グローバル汚染しない） */
+.nail-milky{
   --nm-text: rgba(30, 25, 28, 0.92);
   --nm-sub: rgba(30, 25, 28, 0.58);
   --nm-line: rgba(220, 205, 215, 0.75);
@@ -29,21 +30,29 @@
   --nm-serif: ui-serif, "Times New Roman", Georgia, serif;
 
   /* ★背景の白ベール濃さ：小さいほど背景が濃く見える */
-  --nm-shell-veil: 0.32;   /* 0.25〜0.45で調整おすすめ */
-  --nm-shell-veil-sp: 0.28; /* スマホで背景をより見えるように */
+  --nm-shell-veil: 0.32;
+  --nm-shell-veil-sp: 0.28;
 
   /* ★内側ガラスの透明感：小さいほど中も背景が入る */
-  --nm-panel-alpha: 0.60;  /* 0.52〜0.66で調整おすすめ */
-  --nm-panel-alpha-sp: 0.55; /* スマホでより透明感を */
-}
+  --nm-panel-alpha: 0.60;
+  --nm-panel-alpha-sp: 0.55;
 
-html, body { height: 100%; }
-body {
+  /* ✅ Milkyページのベース（これも Milky内に閉じる） */
   margin: 0;
   font-family: var(--nm-sans);
   color: var(--nm-text);
   overflow-x: hidden;
   background: #fff;
+  min-height: 100vh;
+}
+
+/* ✅ グローバルな html/body は触らない。Milkyの中だけ */
+.nail-milky{
+  min-height: 100vh;
+}
+
+.nail-milky .nmShell{
+  min-height: 100dvh;
 }
 
 /* =========================
@@ -699,9 +708,9 @@ body {
     margin: 16px auto 28px;
   }
 }
-/* ===== Mobile only: background stronger ===== */
+/* ✅ Mobile only: background stronger（Milkyページだけ） */
 @media (max-width: 768px){
-  body{
+  .nail-milky{
     background: linear-gradient(180deg,
       rgba(255, 230, 238, 0.65) 0%,
       rgba(236, 245, 255, 0.70) 45%,

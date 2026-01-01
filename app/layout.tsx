@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
+import ThemeController from "@/components/ThemeController";
+import RevealOnRoute from "@/components/RevealOnRoute";
+import RouteMount from "@/components/RouteMount";
+
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://irzam-portfolio-mocha.vercel.app";
 
@@ -32,7 +36,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ja">
-      <body>{children}</body>
+      <body>
+        <ThemeController />
+        <RevealOnRoute />
+        <RouteMount>{children}</RouteMount>
+      </body>
     </html>
   );
 }
