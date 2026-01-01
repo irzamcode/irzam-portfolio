@@ -7,8 +7,9 @@
    - Mobile：下固定CTA
    ========================= */
 
-/* ✅ Milkyは “body.nail-milky” の中だけで完結させる（グローバル汚染しない） */
-.nail-milky{
+/* ✅ Milkyは "body.nail-milky" の中だけで完結させる（グローバル汚染しない） */
+/* ✅ CSS変数はテーマクラス配下に移動 */
+.nail-milky-theme {
   --nm-text: rgba(30, 25, 28, 0.92);
   --nm-sub: rgba(30, 25, 28, 0.58);
   --nm-line: rgba(220, 205, 215, 0.75);
@@ -36,18 +37,15 @@
   /* ★内側ガラスの透明感：小さいほど中も背景が入る */
   --nm-panel-alpha: 0.60;
   --nm-panel-alpha-sp: 0.55;
+}
 
-  /* ✅ Milkyページのベース（これも Milky内に閉じる） */
+/* ✅ body.nail-milky のみに適用（グローバル禁止） */
+body.nail-milky {
   margin: 0;
   font-family: var(--nm-sans);
   color: var(--nm-text);
   overflow-x: hidden;
-  background: #fff;
-  min-height: 100vh;
-}
-
-/* ✅ グローバルな html/body は触らない。Milkyの中だけ */
-.nail-milky{
+  background: transparent;
   min-height: 100vh;
 }
 
@@ -78,7 +76,7 @@
   .nmShell{
     background:
       linear-gradient(180deg, rgba(255,255,255,var(--nm-shell-veil-sp)), rgba(255,255,255,var(--nm-shell-veil-sp))),
-      url("/demos/nail-milky/bg-bubbles-mobile.jpg");
+      url("/demos/nail-milky/bg-bubbles-desktop.jpg");
     background-attachment: scroll;
     background-position: center top;
   }
@@ -218,7 +216,17 @@
 
 @media (max-width: 768px){
   .nmHero {
-    padding: 48px 16px 20px;
+    padding: 52px 18px 24px;
+  }
+  .nmHeroTitle {
+    line-height: 1.08;
+  }
+  .nmHeroLead {
+    margin-top: 16px;
+  }
+  .nmHeroCtas {
+    margin-top: 24px;
+    gap: 12px;
   }
 }
 .nmHeroBg {
@@ -637,6 +645,20 @@
 .nmBottomText { margin-top:8px; color: rgba(30,25,28,.58); font-weight:900; font-size:13px; line-height:1.85; }
 .nmBottomBtns { margin-top:14px; display:flex; gap:10px; flex-wrap:wrap; justify-content:center; align-items:center; }
 
+/* ✅ スマホではフッターCTAを弱める（sticky CTAがあるため） */
+@media (max-width: 768px){
+  .nmBottomBtns{
+    gap: 8px;
+  }
+  .nmBottomBtns .nmBtnPrimary{
+    box-shadow: none;
+    border-color: rgba(230,220,228,.85);
+    filter: saturate(.92);
+  }
+  .nmBottomTitle{ font-size: 18px; }
+  .nmBottomText{ font-size: 12px; }
+}
+
 .nmFooter {
   border-top: 1px solid rgba(230,220,228,.9);
   background: rgba(255,255,255,.52);
@@ -700,7 +722,7 @@
   .nmMarqueeTrack { animation: none; }
   .nmBtn { transition: none; }
 }
-/* スマホだけ：左右の余白を少し減らして“窮屈さ”を解消 */
+/* スマホだけ：左右の余白を少し減らして"窮屈さ"を解消 */
 @media (max-width: 768px) {
   .nm {
     /* ここが横幅のキモ：28px → 16px にして少し広げる */
@@ -708,13 +730,4 @@
     margin: 16px auto 28px;
   }
 }
-/* ✅ Mobile only: background stronger（Milkyページだけ） */
-@media (max-width: 768px){
-  .nail-milky{
-    background: linear-gradient(180deg,
-      rgba(255, 230, 238, 0.65) 0%,
-      rgba(236, 245, 255, 0.70) 45%,
-      rgba(255, 240, 246, 0.65) 100%
-    );
-  }
-}
+/* ✅ スマホ用body背景は削除（漏れの原因） */

@@ -638,6 +638,9 @@ export default function Page() {
                   制作実例を見る
                 </GhostButton>
               </div>
+              <p className="mt-4 text-xs text-slate-500 sm:text-sm">
+                通常24時間以内に返信します（急ぎはLINEが早いです）
+              </p>
             </section>
           </FadeSection>
 
@@ -832,6 +835,56 @@ export default function Page() {
             </section>
           </FadeSection>
 
+          {/* 5.5. 制作の流れ */}
+          <FadeSection>
+            <section className="mt-20 sm:mt-24 lg:mt-28">
+              <SectionTitle
+                title="制作の流れ"
+                sub="4ステップで進めます。各ステップで渡すもの・もらうものを明確にします。"
+              />
+              <div className="mt-10 rounded-2xl border border-slate-200 bg-white/80 p-6 shadow-md sm:p-8 lg:p-10">
+                <ol className="space-y-6 text-sm leading-7 text-slate-700 sm:text-base lg:space-y-8">
+                  <li className="flex gap-4">
+                    <span className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-900 text-xs font-bold text-white">
+                      1
+                    </span>
+                    <div className="flex-1">
+                      <div className="font-extrabold text-slate-900">ヒアリング（業種/目的/参考URL/納期/予算）</div>
+                      <div className="mt-1 text-slate-600">→ もらう：参考URL / 必須要件</div>
+                    </div>
+                  </li>
+                  <li className="flex gap-4">
+                    <span className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-900 text-xs font-bold text-white">
+                      2
+                    </span>
+                    <div className="flex-1">
+                      <div className="font-extrabold text-slate-900">構成・文章案（こちらで叩き台→確認）</div>
+                      <div className="mt-1 text-slate-600">→ 渡す：構成案 / 文章案</div>
+                    </div>
+                  </li>
+                  <li className="flex gap-4">
+                    <span className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-900 text-xs font-bold text-white">
+                      3
+                    </span>
+                    <div className="flex-1">
+                      <div className="font-extrabold text-slate-900">デザイン→実装（Next.js）</div>
+                      <div className="mt-1 text-slate-600">→ 渡す：デザイン / プレビューURL</div>
+                    </div>
+                  </li>
+                  <li className="flex gap-4">
+                    <span className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-900 text-xs font-bold text-white">
+                      4
+                    </span>
+                    <div className="flex-1">
+                      <div className="font-extrabold text-slate-900">修正→公開（操作方法も共有）</div>
+                      <div className="mt-1 text-slate-600">→ 渡す：公開URL / 簡易操作ガイド</div>
+                    </div>
+                  </li>
+                </ol>
+              </div>
+            </section>
+          </FadeSection>
+
           {/* 6. 納品後の変更メニュー */}
           <FadeSection>
             <section className="mt-20 sm:mt-24 lg:mt-28">
@@ -982,6 +1035,8 @@ export default function Page() {
           <FadeSection>
             <footer className="mt-20 pb-12 text-center text-sm text-slate-600 sm:mt-24 lg:mt-28 lg:text-base">
               Design & Frontend by IRZAM Web Studio
+              <br />
+              通常24時間以内に返信します（急ぎはLINEが早いです）
             </footer>
           </FadeSection>
         </div>

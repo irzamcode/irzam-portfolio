@@ -163,6 +163,8 @@ export default function Page() {
 
             <div className="nmHeroNote">
               ※ デモ：画像・住所・メニューは仮。構造は本番差し替え前提。
+              <br />
+              通常24時間以内に返信します（急ぎはLINEが早いです）
             </div>
           </div>
         </section>
@@ -429,6 +431,8 @@ export default function Page() {
 
             <div className="nmFooterSmall">
               Demo page / Design & Frontend by IRZAM Web Studio
+              <br />
+              通常24時間以内に返信します（急ぎはLINEが早いです）
             </div>
           </div>
         </footer>

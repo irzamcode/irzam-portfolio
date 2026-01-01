@@ -533,6 +533,7 @@ export default function Sections({ onReserve }: { onReserve: () => void }) {
     <div className="footerSmall">© NOIR AURA / Demo site</div>
     <div className="footerSmall">Concept / Design / Frontend by IRZAM Web Studio</div>
     <div className="footerSmall">Available for client work（Demo / Portfolio）</div>
+    <div className="footerSmall">通常24時間以内に返信します（急ぎはLINEが早いです）</div>
   </div>
 </footer>
 

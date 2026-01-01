@@ -27,9 +27,11 @@ export default function ThemeController() {
     const theme = getThemeFromPath(pathname);
 
     // ✅ 毎回「正解の状態に強制」する（残りバグを潰す）
+    // 一旦全てのテーマクラスを削除
     html.classList.remove("noir-theme", "nail-milky-theme");
     body.classList.remove("noir", "nail-milky");
 
+    // 対象テーマだけ追加
     if (theme === THEMES.NOIR) {
       html.classList.add("noir-theme");
       body.classList.add("noir");

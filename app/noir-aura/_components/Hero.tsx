@@ -61,7 +61,11 @@ export default function Hero({ onReserve }: Props) {
             </a>
           </div>
 
-          <div className="heroNote">※デモサイト（架空）。写真・店舗情報はサンプルです。</div>
+          <div className="heroNote">
+            ※デモサイト（架空）。写真・店舗情報はサンプルです。
+            <br />
+            通常24時間以内に返信します（急ぎはLINEが早いです）
+          </div>
         </div>
       </div>
     </section>
