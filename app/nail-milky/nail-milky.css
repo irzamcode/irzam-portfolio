@@ -730,3 +730,30 @@ body.nail-milky {
     margin: 16px auto 28px;
   }
 }/* ✅ スマホ用body背景は削除（漏れの原因） */
+
+/* ===== Mobile: 外側の余白を消してフル幅にする ===== */
+@media (max-width: 768px){
+
+  /* 外枠の余白（赤線）を消す */
+  .nmShell{
+    padding: 0 !important;
+  }
+
+  /* 内側コンテナもフル幅に */
+  .nm{
+    max-width: 100% !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  /* 内側の“うっすら枠”もフル幅に合わせる */
+  .nm::before{
+    inset: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  /* もし影が端で不自然なら弱める（任意） */
+  .nm{
+    box-shadow: none;
+  }
+}
